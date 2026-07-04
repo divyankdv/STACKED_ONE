@@ -23,9 +23,7 @@ Supports:
 
 from __future__ import annotations
 
-from collections import defaultdict
-from collections import deque
-
+from collections import defaultdict, deque
 from threading import RLock
 
 from app.core.events.event import Event
@@ -56,7 +54,7 @@ class EventBus:
             list[Subscriber],
         ] = defaultdict(list)
 
-        self._history = deque(
+        self._history: deque[Event] = deque(
 
             maxlen=history_size,
 
