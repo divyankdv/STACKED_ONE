@@ -50,7 +50,7 @@ class TimeframeAggregator:
 
         }
 
-        self.buffers = {
+        self.buffers: dict[str, list[Candle]] = {
 
             tf: []
 
@@ -58,7 +58,7 @@ class TimeframeAggregator:
 
         }
 
-        self.bucket_start = {
+        self.bucket_start: dict[str, datetime | None] = {
 
             tf: None
 

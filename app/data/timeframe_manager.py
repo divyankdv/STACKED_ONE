@@ -20,6 +20,9 @@ Responsibilities
 """
 
 from collections import deque
+from typing import Deque
+
+from app.models.candle import Candle
 
 from app.config.settings import settings
 
@@ -28,7 +31,7 @@ class TimeframeManager:
 
     def __init__(self):
 
-        self.storage = {}
+        self.storage: dict[str, Deque[Candle]] = {}
 
         for timeframe in settings.timeframes:
 
