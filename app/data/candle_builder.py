@@ -27,7 +27,6 @@ Does NOT
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import datetime
 
 from app.models.candle import Candle
 
@@ -78,7 +77,7 @@ class CandleBuilder:
 
             self.current = Candle(
 
-                timestamp=tick_time,
+                time=tick_time,
 
                 open=tick.price,
 
@@ -90,6 +89,14 @@ class CandleBuilder:
 
                 volume=tick.volume,
 
+                buy_volume=0.0,
+
+                sell_volume=0.0,
+
+                delta=0.0,
+
+                trades=1,
+
             )
 
             return None
@@ -98,7 +105,7 @@ class CandleBuilder:
         # Same Candle
         # ---------------------------------------------
 
-        if self.current.timestamp == tick_time:
+        if self.current.time == tick_time:
 
             self.current.high = max(
 
@@ -144,7 +151,7 @@ class CandleBuilder:
 
         self.current = Candle(
 
-            timestamp=tick_time,
+            time=tick_time,
 
             open=tick.price,
 
@@ -155,6 +162,14 @@ class CandleBuilder:
             close=tick.price,
 
             volume=tick.volume,
+
+            buy_volume=0.0,
+
+            sell_volume=0.0,
+
+            delta=0.0,
+
+            trades=1,
 
         )
 

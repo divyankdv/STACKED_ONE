@@ -21,10 +21,10 @@ Responsibilities
 ============================================================
 """
 
-from datetime import datetime
 
-from app.models.tick import Tick
 from app.models.candle import Candle
+from datetime import datetime
+from app.models.tick import Tick
 
 
 class TickEngine:
@@ -39,12 +39,12 @@ class TickEngine:
 
     def reset(self):
 
-        self.current_minute = None
+        self.current_minute: datetime | None = None
 
-        self.open = None
-        self.high = None
-        self.low = None
-        self.close = None
+        self.open: float | None = None
+        self.high: float | None = None
+        self.low: float | None = None
+        self.close: float | None = None
 
         self.volume = 0.0
 
@@ -96,6 +96,14 @@ class TickEngine:
 
         if self.current_minute is None:
 
+            return None
+        
+        if (
+            self.open is None
+            or self.high is None
+            or self.low is None
+            or self.close is None
+        ):
             return None
 
         return Candle(
@@ -161,6 +169,9 @@ class TickEngine:
         # Same Minute
         # ----------------------------------------------
 
+        assert self.high is not None
+        assert self.low is not None
+        
         self.close = tick.price
 
         self.high = max(
