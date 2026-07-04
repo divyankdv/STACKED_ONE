@@ -1,0 +1,3 @@
+"""
+Smart Money implementation package.
+"""
