@@ -18,6 +18,8 @@ Version 1.0
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable
+from typing import Any
 
 from app.analytics.base_engine import AnalyticsEngine
 from app.analytics.iceberg_snapshot import IcebergSnapshot
@@ -66,7 +68,10 @@ class IcebergEngine(AnalyticsEngine):
 
     def reset(self):
 
-        self.price_levels = defaultdict(
+        self.price_levels: defaultdict[
+            float,
+            dict[str, float | int],
+        ] = defaultdict(
 
             lambda: {
 
@@ -160,7 +165,7 @@ class IcebergEngine(AnalyticsEngine):
 
         self.absorbed_volume = level["volume"]
 
-        self.trade_count = level["trades"]
+        self.trade_count = int(level["trades"])
 
         if level["buy_volume"] > level["sell_volume"]:
 
