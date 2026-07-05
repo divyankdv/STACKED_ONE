@@ -24,6 +24,7 @@ Never parses exchange JSON.
 from __future__ import annotations
 
 import asyncio
+from typing import Any
 
 from app.config.settings import settings
 from app.exchange.clients.delta_websocket_client import DeltaWebSocketClient
@@ -36,172 +37,138 @@ from app.pipeline.market_pipeline import MarketPipeline
 
 
 class WebSocketManager:
+    """
+    High-level manager for the Delta WebSocket client.
+    """
 
     # =====================================================
     # Constructor
     # =====================================================
 
     def __init__(
-
         self,
-
         client: DeltaWebSocketClient,
-
         router: MessageRouter,
-
         pipeline: MarketPipeline,
-
-    ):
+    ) -> None:
 
         self.client = client
-
         self.router = router
-
         self.pipeline = pipeline
 
         self.running = False
-
         self.state = ConnectionState.DISCONNECTED
 
     # =====================================================
-    # Set Connection State
+    # Connection State
     # =====================================================
 
     def set_state(
-
         self,
-
         state: ConnectionState,
-
-    ):
+    ) -> None:
 
         if self.state == state:
-
             return
 
         self.state = state
 
         logger.info(
-
-            f"Connection State -> "
-
-            f"{state.value.upper()}"
-
+            f"Connection State -> {state.value.upper()}"
         )
 
     # =====================================================
     # Start
     # =====================================================
 
-    async def start(self):
+    async def start(self) -> None:
 
         self.running = True
 
         self.set_state(
-
-            ConnectionState.CONNECTING
-
+            ConnectionState.CONNECTING,
         )
 
         await self.client.connect()
+
         self.set_state(
-
-            ConnectionState.CONNECTED
-
+            ConnectionState.CONNECTED,
         )
 
         await self.subscribe()
 
         asyncio.create_task(
-
-            self.run()
-
+            self.run(),
         )
 
     # =====================================================
     # Connect
     # =====================================================
 
-    async def connect(self):
+    async def connect(self) -> None:
 
         await self.client.connect()
 
-        self.set_state(ConnectionState.CONNECTED)
+        self.set_state(
+            ConnectionState.CONNECTED,
+        )
 
         logger.info(
-
             "Connected to Delta WebSocket."
-
         )
 
     # =====================================================
     # Subscribe
     # =====================================================
 
-    async def subscribe(self):
+    async def subscribe(self) -> None:
 
         subscriptions = [
-
             DeltaSubscription(
-
                 channel=DeltaChannel.TRADES,
-
                 symbols=[
-
-                    settings.symbol
-
+                    settings.symbol,
                 ],
-
             ),
-
         ]
 
         await self.client.subscribe(
-
-            subscriptions
-
+            subscriptions,
         )
 
         logger.info(
-
             f"Subscribed to {settings.symbol}"
-
         )
 
-            # =====================================================
-            # Main Event Loop
-            # =====================================================
+    # =====================================================
+    # Main Event Loop
+    # =====================================================
 
-async def run(self):
+    async def run(self) -> None:
 
-    while self.running:
+        while self.running:
 
-        try:
+            try:
 
-            async for message in self.client.listen():
+                async for message in self.client.listen():
 
-                #
-                # Route incoming message
-                #
-
-                events = self.router.route(message)
-
-                if not events:
-                    continue
-
-                #
-                # Process routed events
-                #
-
-                for event in events:
-
-                    tick = event.to_tick()
-
-                    completed = self.pipeline.process_tick(
-                        tick
+                    events = self.router.route(
+                        message,
                     )
 
-                    if completed:
+                    if not events:
+                        continue
+
+                    for event in events:
+
+                        tick = event.to_tick()
+
+                        completed = self.pipeline.process_tick(
+                            tick,
+                        )
+
+                        if not completed:
+                            continue
 
                         candle = completed.get("1m")
 
@@ -209,52 +176,52 @@ async def run(self):
                             continue
 
                         logger.info(
-
                             f"1m Candle Closed | "
                             f"O:{candle.open} "
                             f"H:{candle.high} "
                             f"L:{candle.low} "
                             f"C:{candle.close} "
                             f"V:{candle.volume}"
-
                         )
 
-        except asyncio.CancelledError:
+            except asyncio.CancelledError:
 
-            logger.info(
+                logger.info(
+                    "WebSocket Manager Cancelled."
+                )
 
-                "WebSocket Manager Cancelled."
+                break
 
-            )
+            except Exception as exc:
 
-            break
+                logger.exception(exc)
 
-        except Exception as e:
+                self.set_state(
+                    ConnectionState.DISCONNECTED,
+                )
 
-            logger.exception(e)
-
-            self.set_state(ConnectionState.DISCONNECTED)
-
-            await self.reconnect()
+                await self.reconnect()
 
     # =====================================================
     # Reconnect
     # =====================================================
 
-    async def reconnect(self):
+    async def reconnect(self) -> None:
 
         self.set_state(
+            ConnectionState.RECONNECTING,
+        )
 
-            ConnectionState.RECONNECTING
+        await self.client.disconnect()
 
+        await asyncio.sleep(
+            settings.reconnect_delay,
         )
 
         await self.client.connect()
 
         self.set_state(
-
-            ConnectionState.CONNECTED
-
+            ConnectionState.CONNECTED,
         )
 
         await self.subscribe()
@@ -263,60 +230,48 @@ async def run(self):
     # Stop
     # =====================================================
 
-    async def stop(self):
+    async def stop(self) -> None:
 
         logger.info(
-
             "Stopping WebSocket Manager..."
-
-        )
-
-        self.set_state(
-
-            ConnectionState.STOPPING
-
         )
 
         self.running = False
 
+        self.set_state(
+            ConnectionState.STOPPING,
+        )
+
         await self.client.disconnect()
 
         self.set_state(
-
-            ConnectionState.STOPPED
-
+            ConnectionState.STOPPED,
         )
 
         logger.info(
-
             "WebSocket Manager Stopped."
-
         )
-    
 
     # =====================================================
     # Status
     # =====================================================
 
     @property
-    def status(self):
+    def status(self) -> dict[str, Any]:
 
         return {
-
             "running": self.running,
-
-            "connected": self.connected,
-
+            "connected": self.client.is_connected,
+            "state": self.state.value,
             "symbol": settings.symbol,
-
         }
 
     # =====================================================
-    # Is Running
+    # Running
     # =====================================================
 
     @property
-    def is_running(self):
+    def is_running(self) -> bool:
 
         return self.running
 
@@ -324,40 +279,32 @@ async def run(self):
     # Context Manager
     # =====================================================
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "WebSocketManager":
 
         await self.start()
 
         return self
 
     async def __aexit__(
-
         self,
-
         exc_type,
-
         exc,
-
         tb,
-
-    ):
+    ) -> None:
 
         await self.stop()
 
     # =====================================================
-    # String Representation
+    # String
     # =====================================================
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         return (
-
             "WebSocketManager("
-
             f"running={self.running}, "
-
-            f"connected={self.connected}, "
-
+            f"connected={self.client.is_connected}, "
             f"symbol='{settings.symbol}')"
-
         )
+
+    __repr__ = __str__

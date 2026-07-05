@@ -193,7 +193,7 @@ class DeltaRestClient:
 
                 )
 
-                return product
+            return product
 
         logger.warning(
 
