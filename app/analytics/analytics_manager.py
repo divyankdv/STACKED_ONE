@@ -16,6 +16,13 @@ every trade.
 """
 
 from __future__ import annotations
+from typing import cast
+
+from app.analytics.order_flow_snapshot import OrderFlowSnapshot
+from app.analytics.cvd_snapshot import CVDSnapshot
+from app.analytics.large_trade_snapshot import LargeTradeSnapshot
+from app.analytics.absorption_snapshot import AbsorptionSnapshot
+from app.analytics.iceberg_snapshot import IcebergSnapshot
 
 from app.analytics.analytics_snapshot import AnalyticsSnapshot
 from app.analytics.engine_registry import ENGINE_REGISTRY
@@ -96,6 +103,33 @@ class AnalyticsManager:
                 trade
 
             )
+    
+    # =====================================================
+    # Update + Snapshot
+    # =====================================================
+
+    def update(
+
+        self,
+
+        trade,
+
+    ) -> AnalyticsSnapshot:
+
+        """
+        High-level API.
+
+        Processes one trade through every analytics engine
+        and returns the latest AnalyticsSnapshot.
+        """
+
+        self.update_trade(
+
+            trade,
+
+        )
+
+        return self.snapshot()
 
     # =====================================================
     # Reset
@@ -111,9 +145,9 @@ class AnalyticsManager:
     # Snapshot
     # =====================================================
 
-    def snapshot(self):
+    def snapshot(self) -> AnalyticsSnapshot:
 
-        snapshots = {}
+        snapshots: dict[str, object] = {}
 
         for engine in self.engines:
 
@@ -121,15 +155,30 @@ class AnalyticsManager:
 
         return AnalyticsSnapshot(
 
-            order_flow=snapshots["order_flow"],
+            order_flow=cast(
+                OrderFlowSnapshot,
+                snapshots["order_flow"],
+            ),
 
-            cvd=snapshots["cvd"],
+            cvd=cast(
+                CVDSnapshot,
+                snapshots["cvd"],
+            ),
 
-            large_trades=snapshots["large_trades"],
+            large_trades=cast(
+                LargeTradeSnapshot,
+                snapshots["large_trades"],
+            ),
 
-            absorption=snapshots["absorption"],
+            absorption=cast(
+                AbsorptionSnapshot,
+                snapshots["absorption"],
+            ),
 
-            iceberg=snapshots["iceberg"],
+            iceberg=cast(
+                IcebergSnapshot,
+                snapshots["iceberg"],
+            ),
 
         )
 

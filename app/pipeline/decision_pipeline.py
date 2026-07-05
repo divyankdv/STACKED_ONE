@@ -101,11 +101,13 @@ class DecisionPipeline:
         # Primary Analytics
         #
 
-        analytics = self.analytics.update(
+        self.analytics.update_trade(
 
             trade,
 
         )
+
+        analytics = self.analytics.snapshot()
 
         #
         # Composite Analytics
