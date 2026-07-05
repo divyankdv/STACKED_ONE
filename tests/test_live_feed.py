@@ -1,14 +1,10 @@
 import asyncio
 
-from app.pipeline.market_pipeline import MarketPipeline
-
-from app.exchange.managers.message_router import MessageRouter
-
 from app.exchange.clients.delta_websocket_client import DeltaWebSocketClient
-
+from app.exchange.managers.message_router import MessageRouter
 from app.exchange.protocol.delta_channels import DeltaChannel
 from app.exchange.protocol.delta_subscription import DeltaSubscription
-
+from app.pipeline.market_pipeline import MarketPipeline
 
 pipeline = MarketPipeline()
 

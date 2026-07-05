@@ -10,10 +10,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class OrderType(str, Enum):
+class OrderType(StrEnum):
 
     MARKET = "MARKET"
 

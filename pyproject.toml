@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stacked-one"
+version = "0.1.0"
+description = "Institutional-grade quantitative trading platform."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Divyank Prasoon", email = "divyank.dv@outlook.com" }
+]
+
+# ==========================================================
+# BLACK
+# ==========================================================
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+skip-string-normalization = true
+
+# ==========================================================
+# RUFF
+# ==========================================================
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+exclude = [
+    "venv",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "UP",
+    "B",
+]
+
+ignore = [
+    "E501",
+]
+
+# ==========================================================
+# MYPY
+# ==========================================================
+
+[tool.mypy]
+
+python_version = "3.12"
+
+warn_return_any = true
+
+warn_unused_configs = true
+
+disallow_untyped_defs = false
+
+ignore_missing_imports = true
+
+check_untyped_defs = true
+
+# ==========================================================
+# PYTEST
+# ==========================================================
+
+[tool.pytest.ini_options]
+
+testpaths = [
+    "tests"
+]
+
+python_files = [
+    "test_*.py"
+]
+
+python_classes = [
+    "Test*"
+]
+
+python_functions = [
+    "test_*"
+]
+
+# ==========================================================
+# COVERAGE
+# ==========================================================
+
+[tool.coverage.run]
+
+source = [
+    "app"
+]
+
+omit = [
+    "tests/*",
+]
+
+[tool.coverage.report]
+
+show_missing = true
+
+skip_covered = false
+
+precision = 2
+
+[tool.ruff.lint.per-file-ignores]
+
+"tests/*.py" = ["E402"]
+
+"tests/**/*.py" = ["E402"]

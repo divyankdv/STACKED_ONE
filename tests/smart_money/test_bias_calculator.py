@@ -10,17 +10,13 @@
 
 from app.analytics.evidence import Evidence
 from app.analytics.evidence_collection import EvidenceCollection
-
 from app.analytics.smart_money.bias_calculator import (
     BiasCalculator,
 )
-
 from app.analytics.smart_money_bias import (
     SmartMoneyBias,
 )
-
 from app.config.settings import settings
-
 
 # =====================================================
 # Helper

@@ -20,12 +20,10 @@ from dataclasses import dataclass
 
 from app.analytics.analytics_snapshot import AnalyticsSnapshot
 from app.analytics.composite_context import CompositeAnalyticsContext
-
-from app.strategy.strategy_result import StrategyResult
-
 from app.confluence.confluence_result import (
     ConfluenceResult,
 )
+from app.strategy.strategy_result import StrategyResult
 
 
 @dataclass(slots=True, frozen=True)

@@ -10,10 +10,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class OrderSide(str, Enum):
+class OrderSide(StrEnum):
 
     BUY = "BUY"
 

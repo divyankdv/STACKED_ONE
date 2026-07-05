@@ -22,8 +22,8 @@ Never parses message contents.
 
 from __future__ import annotations
 
-from app.exchange.protocol.trade_parser import TradeParser
 from app.exchange.protocol.message_type import MessageType
+from app.exchange.protocol.trade_parser import TradeParser
 
 
 class MessageRouter:

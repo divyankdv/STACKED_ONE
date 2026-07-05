@@ -14,9 +14,9 @@ Tracks unusually large trades.
 
 from __future__ import annotations
 
+from app.analytics.base_engine import AnalyticsEngine
 from app.analytics.large_trade_snapshot import LargeTradeSnapshot
 from app.config.settings import settings
-from app.analytics.base_engine import AnalyticsEngine
 
 
 class LargeTradeEngine(AnalyticsEngine):

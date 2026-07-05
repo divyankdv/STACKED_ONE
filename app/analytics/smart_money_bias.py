@@ -8,10 +8,10 @@
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class SmartMoneyBias(str, Enum):
+class SmartMoneyBias(StrEnum):
 
     LONG = "LONG"
 

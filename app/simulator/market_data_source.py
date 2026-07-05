@@ -21,8 +21,7 @@ Supported implementations:
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Iterator
 
 from app.simulator.market_event import MarketEvent

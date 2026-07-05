@@ -8,10 +8,10 @@
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class MarketRegime(str, Enum):
+class MarketRegime(StrEnum):
 
     UNKNOWN = "UNKNOWN"
 

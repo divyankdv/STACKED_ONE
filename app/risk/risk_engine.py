@@ -24,13 +24,12 @@ Responsibilities
 
 from __future__ import annotations
 
-from app.strategy.signal_side import SignalSide
-
-from app.risk.risk_profile import RiskProfile
 from app.risk.position_size import PositionSize
+from app.risk.risk_profile import RiskProfile
 from app.risk.stop_loss import StopLoss
 from app.risk.take_profit import TakeProfit
 from app.risk.trade_plan import TradePlan
+from app.strategy.signal_side import SignalSide
 
 
 class RiskEngine:

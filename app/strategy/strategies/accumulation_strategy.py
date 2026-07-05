@@ -16,9 +16,7 @@ analytics.
 from __future__ import annotations
 
 from app.analytics.market_regime import MarketRegime
-
 from app.config.settings import settings
-
 from app.strategy.base_strategy import BaseStrategy
 from app.strategy.confidence_builder import ConfidenceBuilder
 from app.strategy.signal_side import SignalSide

@@ -15,18 +15,13 @@ Builds and wires all application services.
 from __future__ import annotations
 
 from app.application.dependency_container import DependencyContainer
-
+from app.config.settings import settings
 from app.core.events.event_bus import EventBus
-
-from app.pipeline.market_pipeline import MarketPipeline
-from app.pipeline.decision_pipeline import DecisionPipeline
-
 from app.execution.execution_engine import ExecutionEngine
 from app.execution.paper_broker import PaperBroker
-
+from app.pipeline.decision_pipeline import DecisionPipeline
+from app.pipeline.market_pipeline import MarketPipeline
 from app.risk.risk_engine import RiskEngine
-
-from app.config.settings import settings
 
 
 class ContainerBuilder:

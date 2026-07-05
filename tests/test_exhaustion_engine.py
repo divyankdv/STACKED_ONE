@@ -8,17 +8,15 @@
 ============================================================
 """
 
+from app.analytics.absorption_snapshot import AbsorptionSnapshot
 from app.analytics.analytics_snapshot import AnalyticsSnapshot
 from app.analytics.composite_context import CompositeAnalyticsContext
-
-from app.analytics.order_flow_snapshot import OrderFlowSnapshot
 from app.analytics.cvd_snapshot import CVDSnapshot
-from app.analytics.large_trade_snapshot import LargeTradeSnapshot
-from app.analytics.absorption_snapshot import AbsorptionSnapshot
-from app.analytics.iceberg_snapshot import IcebergSnapshot
-from app.analytics.liquidity_snapshot import LiquiditySnapshot
-
 from app.analytics.exhaustion_engine import ExhaustionEngine
+from app.analytics.iceberg_snapshot import IcebergSnapshot
+from app.analytics.large_trade_snapshot import LargeTradeSnapshot
+from app.analytics.liquidity_snapshot import LiquiditySnapshot
+from app.analytics.order_flow_snapshot import OrderFlowSnapshot
 
 
 def build_context():

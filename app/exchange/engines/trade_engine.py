@@ -28,8 +28,8 @@ Does NOT
 
 from datetime import datetime
 
-from app.models.tick import Tick
 from app.logger.logger import logger
+from app.models.tick import Tick
 
 
 class TradeEngine:

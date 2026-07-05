@@ -10,10 +10,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class ConfluenceGrade(str, Enum):
+class ConfluenceGrade(StrEnum):
 
     A_PLUS = "A+"
 

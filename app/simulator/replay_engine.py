@@ -17,9 +17,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.pipeline.market_pipeline import MarketPipeline
 from app.pipeline.decision_pipeline import DecisionPipeline
-
+from app.pipeline.market_pipeline import MarketPipeline
 from app.simulator.market_data_source import MarketDataSource
 from app.simulator.market_event import MarketEvent
 

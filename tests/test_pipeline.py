@@ -19,8 +19,8 @@ if PROJECT_ROOT not in sys.path:
 
 from datetime import datetime, timedelta
 
-from app.models.tick import Tick
 from app.data.tick_engine import TickEngine
+from app.models.tick import Tick
 
 
 def main():

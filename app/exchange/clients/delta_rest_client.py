@@ -22,16 +22,15 @@ Responsibilities
 
 from __future__ import annotations
 
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from typing import Any
 
 import requests
 
 from app.config.settings import settings
 from app.logger import logger
-
-from app.models.product import Product
 from app.models.candle import Candle
+from app.models.product import Product
 
 
 class DeltaRestClient:

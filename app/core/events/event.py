@@ -18,9 +18,7 @@ through the entire trading pipeline.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-
 from datetime import datetime
-
 from uuid import uuid4
 
 from app.core.events.event_types import EventType

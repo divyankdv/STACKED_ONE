@@ -14,12 +14,10 @@ Base class for objects capable of publishing events.
 
 from __future__ import annotations
 
-from abc import ABC
-
 from app.core.events.event import Event
 
 
-class Publisher(ABC):
+class Publisher:
     """
     Base publisher used by engines and managers.
     """

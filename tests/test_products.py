@@ -46,7 +46,6 @@ if PROJECT_ROOT not in sys.path:
 from app.config.settings import settings
 from app.exchange.clients.delta_rest_client import DeltaRestClient
 
-
 # ==========================================================
 # Main
 # ==========================================================

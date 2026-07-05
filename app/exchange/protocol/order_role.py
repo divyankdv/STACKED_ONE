@@ -12,10 +12,10 @@ Represents liquidity role in a trade.
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class OrderRole(str, Enum):
+class OrderRole(StrEnum):
 
     MAKER = "maker"
 

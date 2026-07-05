@@ -12,10 +12,10 @@ Represents the lifecycle of an exchange connection.
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class ConnectionState(str, Enum):
+class ConnectionState(StrEnum):
 
     DISCONNECTED = "disconnected"
 

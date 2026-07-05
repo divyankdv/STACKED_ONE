@@ -8,10 +8,10 @@
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class DeltaChannel(str, Enum):
+class DeltaChannel(StrEnum):
 
     TRADES = "all_trades"
 

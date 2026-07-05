@@ -22,7 +22,6 @@ Verifies:
 from app.analytics.large_trade_engine import LargeTradeEngine
 from app.exchange.protocol.trade_message import TradeMessage
 
-
 # =====================================================
 # Helper
 # =====================================================

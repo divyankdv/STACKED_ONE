@@ -22,7 +22,6 @@ Verifies:
 from app.analytics.iceberg_engine import IcebergEngine
 from app.exchange.protocol.trade_message import TradeMessage
 
-
 # =====================================================
 # Helper
 # =====================================================

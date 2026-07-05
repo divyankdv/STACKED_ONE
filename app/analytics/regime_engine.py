@@ -20,21 +20,17 @@ from __future__ import annotations
 from app.analytics.base_composite_engine import (
     CompositeAnalyticsEngine,
 )
-
-from app.analytics.regime_snapshot import (
-    RegimeSnapshot,
-)
-
-from app.analytics.market_regime import (
-    MarketRegime,
-)
-
 from app.analytics.evidence import (
     Evidence,
 )
-
 from app.analytics.evidence_collection import (
     EvidenceCollection,
+)
+from app.analytics.market_regime import (
+    MarketRegime,
+)
+from app.analytics.regime_snapshot import (
+    RegimeSnapshot,
 )
 
 

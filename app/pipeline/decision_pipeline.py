@@ -36,17 +36,14 @@ from app.analytics.analytics_manager import AnalyticsManager
 from app.analytics.composite_analytics_manager import (
     CompositeAnalyticsManager,
 )
-
-from app.strategy.strategy_engine import (
-    StrategyEngine,
-)
-
 from app.confluence.confluence_engine import (
     ConfluenceEngine,
 )
-
 from app.performance.performance_manager import (
     PerformanceManager,
+)
+from app.strategy.strategy_engine import (
+    StrategyEngine,
 )
 
 # These will be implemented next

@@ -12,19 +12,18 @@ Creates every shared service exactly once.
 ============================================================
 """
 
-from app.exchange.market_data import market_data
-
 # Exchange Clients
 from app.exchange.clients.delta_rest_client import DeltaRestClient
 from app.exchange.clients.delta_websocket_client import DeltaWebSocketClient
+from app.exchange.engines.orderbook_engine import OrderBookEngine
+
+# Exchange Engines
+from app.exchange.engines.trade_engine import TradeEngine
 
 # Exchange Managers
 from app.exchange.managers.message_router import MessageRouter
 from app.exchange.managers.websocket_manager import WebSocketManager
-
-# Exchange Engines
-from app.exchange.engines.trade_engine import TradeEngine
-from app.exchange.engines.orderbook_engine import OrderBookEngine
+from app.exchange.market_data import market_data
 
 # Data
 from app.pipeline.market_pipeline import MarketPipeline

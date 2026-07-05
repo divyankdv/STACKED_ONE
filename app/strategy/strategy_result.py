@@ -16,8 +16,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from app.strategy.strategy_signal import StrategySignal
 from app.strategy.signal_side import SignalSide
+from app.strategy.strategy_signal import StrategySignal
 
 
 @dataclass(slots=True)

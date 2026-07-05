@@ -26,16 +26,12 @@ from __future__ import annotations
 import asyncio
 
 from app.config.settings import settings
-from app.logger import logger
-
 from app.exchange.clients.delta_websocket_client import DeltaWebSocketClient
+from app.exchange.managers.message_router import MessageRouter
 from app.exchange.protocol.connection_state import ConnectionState
-
 from app.exchange.protocol.delta_channels import DeltaChannel
 from app.exchange.protocol.delta_subscription import DeltaSubscription
-
-from app.exchange.managers.message_router import MessageRouter
-
+from app.logger import logger
 from app.pipeline.market_pipeline import MarketPipeline
 
 

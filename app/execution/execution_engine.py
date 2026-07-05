@@ -21,16 +21,13 @@ Responsibilities
 
 from __future__ import annotations
 
-from app.market.market_snapshot import MarketSnapshot
-
 from app.execution.broker import Broker
-from app.execution.paper_broker import PaperBroker
-
 from app.execution.order_request import OrderRequest
 from app.execution.order_result import OrderResult
 from app.execution.order_side import OrderSide
 from app.execution.order_type import OrderType
-
+from app.execution.paper_broker import PaperBroker
+from app.market.market_snapshot import MarketSnapshot
 from app.risk.trade_plan import TradePlan
 from app.strategy.signal_side import SignalSide
 

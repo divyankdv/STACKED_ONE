@@ -10,18 +10,15 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from dataclasses import field
-
-from app.strategy.signal_side import SignalSide
+from dataclasses import dataclass, field
 
 from app.confluence.confluence_grade import (
     ConfluenceGrade,
 )
-
 from app.confluence.confluence_reason import (
     ConfluenceReason,
 )
+from app.strategy.signal_side import SignalSide
 
 
 @dataclass(slots=True)

@@ -28,10 +28,8 @@ from app.analytics.analytics_manager import AnalyticsManager
 from app.analytics.composite_analytics_manager import (
     CompositeAnalyticsManager,
 )
-
-from app.exchange.protocol.trade_message import TradeMessage
 from app.exchange.protocol.order_role import OrderRole
-
+from app.exchange.protocol.trade_message import TradeMessage
 
 # =====================================================
 # Helper

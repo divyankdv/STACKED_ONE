@@ -18,9 +18,8 @@ Produces immutable OrderFlowSnapshot objects.
 
 from __future__ import annotations
 
-from app.analytics.order_flow_snapshot import OrderFlowSnapshot
-
 from app.analytics.base_engine import AnalyticsEngine
+from app.analytics.order_flow_snapshot import OrderFlowSnapshot
 
 
 class OrderFlowEngine(AnalyticsEngine):

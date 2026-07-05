@@ -18,23 +18,18 @@ Every strategy should inherit from BaseStrategy.
 from __future__ import annotations
 
 from app.strategy.base_strategy import BaseStrategy
-
 from app.strategy.strategies.accumulation_strategy import (
     AccumulationStrategy,
 )
-
-from app.strategy.strategies.distribution_strategy import (
-    DistributionStrategy,
-)
-
 from app.strategy.strategies.breakout_strategy import (
     BreakoutStrategy,
 )
-
+from app.strategy.strategies.distribution_strategy import (
+    DistributionStrategy,
+)
 from app.strategy.strategies.reversal_strategy import (
     ReversalStrategy,
 )
-
 
 # ==========================================================
 # Strategy Registry

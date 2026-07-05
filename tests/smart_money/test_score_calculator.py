@@ -10,7 +10,6 @@
 
 from app.analytics.evidence import Evidence
 from app.analytics.evidence_collection import EvidenceCollection
-
 from app.analytics.smart_money.score_calculator import (
     ScoreCalculator,
 )

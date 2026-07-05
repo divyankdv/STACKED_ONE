@@ -1,6 +1,5 @@
 from app.exchange.protocol.trade_message import TradeMessage
 
-
 sample = {
 
     "type": "all_trades",

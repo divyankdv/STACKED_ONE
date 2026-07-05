@@ -10,10 +10,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class ExecutionMode(str, Enum):
+class ExecutionMode(StrEnum):
 
     PAPER = "PAPER"
 

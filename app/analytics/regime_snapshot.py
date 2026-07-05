@@ -12,8 +12,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.analytics.market_regime import MarketRegime
 from app.analytics.evidence import Evidence
+from app.analytics.market_regime import MarketRegime
 
 
 @dataclass(frozen=True, slots=True)

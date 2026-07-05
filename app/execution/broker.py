@@ -16,12 +16,11 @@ Every exchange implementation must inherit this class.
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
+from app.execution.order import Order
 from app.execution.order_request import OrderRequest
 from app.execution.order_result import OrderResult
-from app.execution.order import Order
 
 
 class Broker(ABC):

@@ -20,8 +20,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from app.strategy.signal_side import SignalSide
 from app.confluence.confluence_grade import ConfluenceGrade
+from app.strategy.signal_side import SignalSide
 
 
 @dataclass(slots=True)

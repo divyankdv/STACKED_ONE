@@ -17,8 +17,7 @@ The Execution Engine consumes this object directly.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 
 from app.strategy.signal_side import SignalSide
 

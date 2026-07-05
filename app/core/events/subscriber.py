@@ -14,8 +14,7 @@ Base class for every Event Bus subscriber.
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from app.core.events.event import Event
 

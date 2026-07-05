@@ -11,7 +11,6 @@ A collection of candles belonging to one timeframe.
 """
 
 from dataclasses import dataclass, field
-from typing import List
 
 from app.models.candle import Candle
 
@@ -21,7 +20,7 @@ class CandleSeries:
 
     timeframe: int
 
-    candles: List[Candle] = field(default_factory=list)
+    candles: list[Candle] = field(default_factory=list)
 
     def add(self, candle: Candle):
 

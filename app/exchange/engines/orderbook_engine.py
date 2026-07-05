@@ -21,8 +21,8 @@ Responsibilities
 
 from dataclasses import dataclass
 
-from app.logger.logger import logger
 from app.exchange.market_data import market_data
+from app.logger.logger import logger
 
 
 @dataclass

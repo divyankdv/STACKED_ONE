@@ -15,20 +15,17 @@ using weighted confidence aggregation.
 
 from __future__ import annotations
 
-from app.strategy.signal_side import SignalSide
-from app.strategy.strategy_result import StrategyResult
-
 from app.confluence.confluence_grade import (
     ConfluenceGrade,
 )
-
 from app.confluence.confluence_reason import (
     ConfluenceReason,
 )
-
 from app.confluence.confluence_result import (
     ConfluenceResult,
 )
+from app.strategy.signal_side import SignalSide
+from app.strategy.strategy_result import StrategyResult
 
 
 class ConfluenceEngine:

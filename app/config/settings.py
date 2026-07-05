@@ -25,11 +25,9 @@ settings.ema_fast
 """
 
 import os
+from dataclasses import dataclass, field
 
 from dotenv import load_dotenv
-
-from dataclasses import dataclass, field
-from typing import List
 
 load_dotenv()
 
@@ -109,7 +107,7 @@ class Settings:
     # TIMEFRAMES
     # ======================================================
 
-    timeframes: List[str] = field(default_factory=lambda: [
+    timeframes: list[str] = field(default_factory=lambda: [
 
         "1m",
 

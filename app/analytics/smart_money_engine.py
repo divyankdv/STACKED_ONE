@@ -19,29 +19,23 @@ from __future__ import annotations
 from app.analytics.base_composite_engine import (
     CompositeAnalyticsEngine,
 )
-
-from app.analytics.smart_money_snapshot import (
-    SmartMoneySnapshot,
+from app.analytics.smart_money.bias_calculator import (
+    BiasCalculator,
 )
-
-from app.analytics.smart_money_bias import (
-    SmartMoneyBias,
-)
-
 from app.analytics.smart_money.evidence_builder import (
     EvidenceBuilder,
 )
-
 from app.analytics.smart_money.pattern_library import (
     PatternLibrary,
 )
-
 from app.analytics.smart_money.score_calculator import (
     ScoreCalculator,
 )
-
-from app.analytics.smart_money.bias_calculator import (
-    BiasCalculator,
+from app.analytics.smart_money_bias import (
+    SmartMoneyBias,
+)
+from app.analytics.smart_money_snapshot import (
+    SmartMoneySnapshot,
 )
 
 

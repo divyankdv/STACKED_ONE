@@ -21,8 +21,8 @@ Responsibilities
 """
 
 from app.data.tick_engine import TickEngine
-from app.data.timeframe_manager import TimeframeManager
 from app.data.timeframe_aggregator import TimeframeAggregator
+from app.data.timeframe_manager import TimeframeManager
 from app.models.candle import Candle
 
 

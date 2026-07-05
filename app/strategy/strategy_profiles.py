@@ -1,6 +1,5 @@
 from app.strategy.strategy_profile import StrategyProfile
 
-
 STRATEGY_PROFILES = {
 
     "Accumulation": StrategyProfile(

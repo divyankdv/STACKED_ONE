@@ -15,7 +15,7 @@ Represents a single trading signal produced by a strategy.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Tuple
+
 from app.strategy.signal_side import SignalSide
 
 
@@ -47,7 +47,7 @@ class StrategySignal:
     # Human-readable explanation
     #
 
-    reasons: Tuple[str, ...] = ()
+    reasons: tuple[str, ...] = ()
 
     #
     # Optional metadata

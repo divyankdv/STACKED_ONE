@@ -17,19 +17,16 @@ and returns a StrategySignal.
 
 from __future__ import annotations
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from app.analytics.composite_context import (
     CompositeAnalyticsContext,
 )
-
-from app.strategy.strategy_signal import (
-    StrategySignal,
-)
-
 from app.strategy.strategy_metadata import (
     StrategyMetadata,
+)
+from app.strategy.strategy_signal import (
+    StrategySignal,
 )
 
 
@@ -103,9 +100,10 @@ class BaseStrategy(ABC):
     def reset(self) -> None:
         """
         Override if the strategy maintains internal state.
-        """
 
-        pass
+        Default implementation intentionally does nothing.
+        """
+        return None
 
     # =====================================================
     # Convenience Properties

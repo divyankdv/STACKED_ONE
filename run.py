@@ -28,9 +28,7 @@ Startup Sequence
 
 from app.config.settings import settings
 from app.core.application import Application
-from app.exchange.clients.delta_rest_client import DeltaRestClient
 from app.exchange.history_loader import HistoryLoader
-
 
 # ==========================================================
 # Banner

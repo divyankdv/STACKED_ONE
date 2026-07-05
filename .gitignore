@@ -51,3 +51,20 @@ benchmarks/results/
 data/replay/
 data/historical/
 *.csv
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime data
+logs/
+exports/
+reports/
+
+# Market data
+data/live/
+data/cache/
+
+# VS Code workspace
+*.code-workspace

@@ -8,10 +8,10 @@
 ============================================================
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class MessageType(str, Enum):
+class MessageType(StrEnum):
 
     SUBSCRIPTIONS = "subscriptions"
 

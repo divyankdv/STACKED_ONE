@@ -18,9 +18,8 @@ Produces immutable CVDSnapshot objects.
 
 from __future__ import annotations
 
-from app.analytics.cvd_snapshot import CVDSnapshot
-
 from app.analytics.base_engine import AnalyticsEngine
+from app.analytics.cvd_snapshot import CVDSnapshot
 
 
 class CVDEngine(AnalyticsEngine):

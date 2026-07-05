@@ -26,9 +26,9 @@ Features
 from __future__ import annotations
 
 import csv
+from collections.abc import Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import Iterator
 
 from app.simulator.market_data_source import MarketDataSource
 from app.simulator.market_event import MarketEvent

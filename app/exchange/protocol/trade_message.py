@@ -26,8 +26,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
-from app.models.tick import Tick
 from app.exchange.protocol.order_role import OrderRole
+from app.models.tick import Tick
 
 
 @dataclass(slots=True)
@@ -56,7 +56,7 @@ class TradeMessage:
     # =====================================================
 
     @classmethod
-    def from_delta(cls, data: dict) -> "TradeMessage":
+    def from_delta(cls, data: dict) -> TradeMessage:
 
         return cls(
 

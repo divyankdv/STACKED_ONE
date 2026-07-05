@@ -10,10 +10,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class OrderStatus(str, Enum):
+class OrderStatus(StrEnum):
 
     PENDING = "PENDING"
 

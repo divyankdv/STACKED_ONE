@@ -27,8 +27,6 @@ from __future__ import annotations
 from copy import deepcopy
 
 from app.execution.execution_report import ExecutionReport
-from app.execution.order_side import OrderSide
-
 from app.portfolio.position import Position
 from app.portfolio.position_update_result import PositionUpdateResult
 

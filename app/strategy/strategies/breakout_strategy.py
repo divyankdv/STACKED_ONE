@@ -16,15 +16,12 @@ order flow, liquidity and institutional participation.
 from __future__ import annotations
 
 from app.config.settings import settings
-
 from app.strategy.base_strategy import BaseStrategy
+from app.strategy.confidence_builder import ConfidenceBuilder
+from app.strategy.decision_policy import DecisionPolicy
 from app.strategy.strategy_metadata import StrategyMetadata
 from app.strategy.strategy_signal import StrategySignal
-from app.strategy.signal_side import SignalSide
-
-from app.strategy.confidence_builder import ConfidenceBuilder
 from app.strategy.vote_builder import VoteBuilder
-from app.strategy.decision_policy import DecisionPolicy
 
 
 class BreakoutStrategy(BaseStrategy):

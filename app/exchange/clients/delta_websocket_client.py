@@ -28,10 +28,8 @@ import websockets
 from websockets import WebSocketClientProtocol
 
 from app.config.settings import settings
-from app.logger import logger
-
-from app.exchange.protocol.delta_channels import DeltaChannel
 from app.exchange.protocol.delta_subscription import DeltaSubscription
+from app.logger import logger
 
 
 class DeltaWebSocketClient:
