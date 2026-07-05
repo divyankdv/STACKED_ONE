@@ -25,7 +25,7 @@ import asyncio
 import json
 
 import websockets
-from websockets import WebSocketClientProtocol
+from websockets.asyncio.client import ClientConnection
 
 from app.config.settings import settings
 from app.exchange.protocol.delta_subscription import DeltaSubscription
@@ -46,7 +46,7 @@ class DeltaWebSocketClient:
 
         self.url = settings.ws_url
 
-        self.websocket: WebSocketClientProtocol | None = None
+        self.websocket: ClientConnection | None = None
 
         self.connected = False
 
@@ -106,7 +106,7 @@ class DeltaWebSocketClient:
 
     ):
 
-        if not self.connected:
+        if self.websocket is None:
 
             raise RuntimeError(
 
@@ -126,7 +126,7 @@ class DeltaWebSocketClient:
 
     async def receive(self):
 
-        if not self.connected:
+        if self.websocket is None:
 
             raise RuntimeError(
 
@@ -330,7 +330,7 @@ class DeltaWebSocketClient:
 
     async def ping(self):
 
-        if not self.connected:
+        if self.websocket is None:
 
             return
 
