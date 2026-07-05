@@ -15,7 +15,10 @@ raw JSON from the exchange.
 ============================================================
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass(slots=True)
@@ -84,7 +87,10 @@ class Product:
     # =====================================================
 
     @classmethod
-    def from_delta(cls, data: dict):
+    def from_delta(
+        cls,
+        data: dict[str, Any],
+    ) -> Product:
 
         quoting = data.get("quoting_asset", {})
         settling = data.get("settling_asset", {})
@@ -176,16 +182,16 @@ class Product:
     # =====================================================
 
     @property
-    def is_live(self):
+    def is_live(self) -> bool:
 
         return self.state.lower() == "live"
 
     @property
-    def is_perpetual(self):
+    def is_perpetual(self) -> bool:
 
         return self.contract_type == "perpetual_futures"
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         return (
 

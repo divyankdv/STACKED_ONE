@@ -23,7 +23,7 @@ Responsibilities
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, cast
 
 import requests
 
@@ -59,7 +59,7 @@ class DeltaRestClient:
 
         })
 
-        self._products = None
+        self._products: list[dict[str, Any]] | None = None
 
     # =====================================================
     # Generic GET
@@ -93,7 +93,7 @@ class DeltaRestClient:
 
             response.raise_for_status()
 
-            return response.json()
+            return cast(dict[str, Any], response.json())
 
         except requests.Timeout:
 
@@ -123,7 +123,7 @@ class DeltaRestClient:
     # Products
     # =====================================================
 
-    def get_products(self):
+    def get_products(self) -> list[dict[str, Any]]:
 
         """
         Download every exchange product.
@@ -141,12 +141,12 @@ class DeltaRestClient:
 
         )
 
-        self._products = data.get(
-
-            "result",
-
-            [],
-
+        self._products = cast(
+            list[dict[str, Any]],
+            data.get(
+                "result",
+                [],
+            ),
         )
 
         logger.info(

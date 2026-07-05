@@ -16,6 +16,7 @@ every trade.
 """
 
 from __future__ import annotations
+
 from typing import cast
 
 from app.analytics.order_flow_snapshot import OrderFlowSnapshot
