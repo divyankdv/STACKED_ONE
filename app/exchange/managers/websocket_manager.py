@@ -279,7 +279,7 @@ class WebSocketManager:
     # Context Manager
     # =====================================================
 
-    async def __aenter__(self) -> "WebSocketManager":
+    async def __aenter__(self) -> WebSocketManager:
 
         await self.start()
 

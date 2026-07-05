@@ -18,8 +18,6 @@ Version 1.0
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Callable
-from typing import Any
 
 from app.analytics.base_engine import AnalyticsEngine
 from app.analytics.iceberg_snapshot import IcebergSnapshot

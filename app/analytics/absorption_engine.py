@@ -23,6 +23,7 @@ from app.analytics.base_engine import AnalyticsEngine
 from app.config.settings import settings
 from app.portfolio.trade import Trade
 
+
 class AbsorptionEngine(AnalyticsEngine):
 
     snapshot_name = "absorption"

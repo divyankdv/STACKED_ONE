@@ -22,8 +22,9 @@ Responsibilities
 """
 
 
-from app.models.candle import Candle
 from datetime import datetime
+
+from app.models.candle import Candle
 from app.models.tick import Tick
 
 
