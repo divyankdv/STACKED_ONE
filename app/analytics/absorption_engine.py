@@ -19,11 +19,9 @@ from __future__ import annotations
 from collections import deque
 
 from app.analytics.absorption_snapshot import AbsorptionSnapshot
-
-from app.config.settings import settings
-
 from app.analytics.base_engine import AnalyticsEngine
-
+from app.config.settings import settings
+from app.portfolio.trade import Trade
 
 class AbsorptionEngine(AnalyticsEngine):
 
@@ -81,6 +79,8 @@ class AbsorptionEngine(AnalyticsEngine):
 
         )
 
+        self.trades: deque[Trade]
+
         self.reset()
 
     # =====================================================
@@ -89,7 +89,9 @@ class AbsorptionEngine(AnalyticsEngine):
 
     def reset(self):
 
-        self.trades = deque(maxlen=self.window_size)
+        self.trades = deque(
+            maxlen=self.window_size,
+        )
 
         self.buy_volume = 0.0
 
