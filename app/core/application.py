@@ -26,7 +26,9 @@ from app.exchange.managers.websocket_manager import WebSocketManager
 from app.exchange.market_data import market_data
 
 # Data
+from app.runtime.live_runtime import LiveRuntime
 from app.pipeline.market_pipeline import MarketPipeline
+from app.pipeline.decision_pipeline import DecisionPipeline
 
 
 class Application:
@@ -60,6 +62,24 @@ class Application:
         self.market_pipeline = MarketPipeline()
 
         # ==================================================
+        # Decision Pipeline
+        # ==================================================
+
+        self.decision_pipeline = DecisionPipeline()
+
+        # ==================================================
+        # Live Runtime
+        # ==================================================
+
+        self.live_runtime = LiveRuntime(
+
+            market_pipeline=self.market_pipeline,
+
+            decision_pipeline=self.decision_pipeline,
+
+        )
+
+        # ==================================================
         # Exchange Engines
         # ==================================================
 
@@ -77,7 +97,7 @@ class Application:
 
             router=self.message_router,
 
-            pipeline=self.market_pipeline,
+            runtime=self.live_runtime,
 
         )
 

@@ -26,7 +26,9 @@ Does NOT
 ============================================================
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
+
+timestamp = datetime.now(UTC)
 
 from app.logger.logger import logger
 from app.models.tick import Tick

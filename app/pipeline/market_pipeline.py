@@ -27,7 +27,6 @@ from app.models.candle import Candle
 
 
 class MarketPipeline:
-
     def __init__(self):
 
         self.tick_engine = TickEngine()
@@ -45,7 +44,6 @@ class MarketPipeline:
         completed = self.tick_engine.update(tick)
 
         if completed is None:
-
             return None
 
         return self._process_completed_candle(completed)
@@ -55,11 +53,8 @@ class MarketPipeline:
     # =====================================================
 
     def process_candle(
-
         self,
-
         candle: Candle,
-
     ):
 
         return self._process_completed_candle(candle)
@@ -69,49 +64,32 @@ class MarketPipeline:
     # =====================================================
 
     def _process_completed_candle(
-
         self,
-
         candle: Candle,
-
     ):
 
         # Store 1m candle
 
         self.timeframe_manager.add(
-
             "1m",
-
             candle,
-
         )
 
         # Aggregate higher timeframes
 
-        completed = self.timeframe_aggregator.update(
-
-            candle
-
-        )
+        completed = self.timeframe_aggregator.update(candle)
 
         # Store aggregated candles
 
         for tf, tf_candle in completed.items():
-
             self.timeframe_manager.add(
-
                 tf,
-
                 tf_candle,
-
             )
 
         return {
-
             "1m": candle,
-
             **completed,
-
         }
 
     # =====================================================
@@ -119,54 +97,33 @@ class MarketPipeline:
     # =====================================================
 
     def history(
-
         self,
-
         timeframe,
-
     ):
 
-        return self.timeframe_manager.history(
-
-            timeframe
-
-        )
+        return self.timeframe_manager.history(timeframe)
 
     # =====================================================
     # Last Candle
     # =====================================================
 
     def last(
-
         self,
-
         timeframe,
-
     ):
 
-        return self.timeframe_manager.last(
-
-            timeframe
-
-        )
+        return self.timeframe_manager.last(timeframe)
 
     # =====================================================
     # Count
     # =====================================================
 
     def count(
-
         self,
-
         timeframe,
-
     ):
 
-        return self.timeframe_manager.count(
-
-            timeframe
-
-        )
+        return self.timeframe_manager.count(timeframe)
 
     # =====================================================
     # Reset

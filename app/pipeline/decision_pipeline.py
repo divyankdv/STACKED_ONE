@@ -39,6 +39,7 @@ from app.analytics.composite_analytics_manager import (
 from app.confluence.confluence_engine import (
     ConfluenceEngine,
 )
+from app.decision.decision_result import DecisionResult
 from app.performance.performance_manager import (
     PerformanceManager,
 )
@@ -53,7 +54,6 @@ from app.strategy.strategy_engine import (
 
 
 class DecisionPipeline:
-
     """
     Central trading decision orchestrator.
     """
@@ -85,13 +85,9 @@ class DecisionPipeline:
     # =====================================================
 
     def process_trade(
-
         self,
-
         trade,
-
     ):
-
         """
         Processes one trade through the entire
         decision pipeline.
@@ -102,9 +98,7 @@ class DecisionPipeline:
         #
 
         self.analytics.update_trade(
-
             trade,
-
         )
 
         analytics = self.analytics.snapshot()
@@ -114,9 +108,7 @@ class DecisionPipeline:
         #
 
         composite = self.composite.update(
-
             analytics,
-
         )
 
         #
@@ -124,9 +116,7 @@ class DecisionPipeline:
         #
 
         strategy_result = self.strategy.evaluate(
-
             composite,
-
         )
 
         #
@@ -134,9 +124,7 @@ class DecisionPipeline:
         #
 
         confluence = self.confluence.evaluate(
-
             strategy_result,
-
         )
 
         #
@@ -144,17 +132,11 @@ class DecisionPipeline:
         #
 
         if self.journal is not None:
-
             self.journal.record(
-
                 analytics,
-
                 composite,
-
                 strategy_result,
-
                 confluence,
-
             )
 
         #
@@ -171,11 +153,8 @@ class DecisionPipeline:
         risk_result = None
 
         if self.risk is not None:
-
             risk_result = self.risk.evaluate(
-
                 confluence,
-
             )
 
         #
@@ -184,37 +163,19 @@ class DecisionPipeline:
 
         execution_result = None
 
-        if (
-
-            self.execution is not None
-
-            and
-
-            risk_result is not None
-
-        ):
-
+        if self.execution is not None and risk_result is not None:
             execution_result = self.execution.execute(
-
                 risk_result,
-
             )
 
-        return {
-
-            "analytics": analytics,
-
-            "composite": composite,
-
-            "strategy": strategy_result,
-
-            "confluence": confluence,
-
-            "risk": risk_result,
-
-            "execution": execution_result,
-
-        }
+        return DecisionResult(
+            analytics=analytics,
+            composite=composite,
+            strategy=strategy_result,
+            confluence=confluence,
+            risk=risk_result,
+            execution=execution_result,
+        )
 
     # =====================================================
 

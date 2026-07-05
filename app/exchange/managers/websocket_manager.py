@@ -50,11 +50,13 @@ class WebSocketManager:
         client: DeltaWebSocketClient,
         router: MessageRouter,
         pipeline: MarketPipeline,
+        decision_pipeline: DecisionPipeline,
     ) -> None:
 
         self.client = client
         self.router = router
         self.pipeline = pipeline
+        self.decision_pipeline = decision_pipeline
 
         self.running = False
         self.state = ConnectionState.DISCONNECTED
