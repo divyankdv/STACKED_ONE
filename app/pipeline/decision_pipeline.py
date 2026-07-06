@@ -7,7 +7,7 @@
 
 ------------------------------------------------------------
 
-Transforms market state into a trading decision.
+Transforms analytics into an executable TradePlan.
 
 Pipeline
 
@@ -19,20 +19,15 @@ Strategies
     ↓
 Confluence
     ↓
-Journal
-    ↓
-Performance
-    ↓
 Risk
     ↓
-Execution
+Trade Plan
 
 ============================================================
 """
 
 from __future__ import annotations
 
-from app.analytics.analytics_manager import AnalyticsManager
 from app.analytics.composite_analytics_manager import (
     CompositeAnalyticsManager,
 )
@@ -40,17 +35,8 @@ from app.confluence.confluence_engine import (
     ConfluenceEngine,
 )
 from app.decision.decision_result import DecisionResult
-from app.performance.performance_manager import (
-    PerformanceManager,
-)
-from app.strategy.strategy_engine import (
-    StrategyEngine,
-)
-
-# These will be implemented next
-# from app.journal.journal_manager import JournalManager
-# from app.risk.risk_engine import RiskEngine
-# from app.execution.execution_engine import ExecutionEngine
+from app.risk.risk_engine import RiskEngine
+from app.strategy.strategy_engine import StrategyEngine
 
 
 class DecisionPipeline:
@@ -62,46 +48,26 @@ class DecisionPipeline:
 
     def __init__(self):
 
-        self.analytics = AnalyticsManager()
-
         self.composite = CompositeAnalyticsManager()
 
         self.strategy = StrategyEngine()
 
         self.confluence = ConfluenceEngine()
 
-        self.performance = PerformanceManager()
-
-        #
-        # Coming next
-        #
+        self.risk = RiskEngine()
 
         self.journal = None
 
-        self.risk = None
-
-        self.execution = None
-
     # =====================================================
 
-    def process_trade(
+    def process(
         self,
-        trade,
-    ):
+        analytics,
+        entry_price: float,
+    ) -> DecisionResult:
         """
-        Processes one trade through the entire
-        decision pipeline.
+        Produce a TradePlan from an AnalyticsSnapshot.
         """
-
-        #
-        # Primary Analytics
-        #
-
-        self.analytics.update_trade(
-            trade,
-        )
-
-        analytics = self.analytics.snapshot()
 
         #
         # Composite Analytics
@@ -128,7 +94,7 @@ class DecisionPipeline:
         )
 
         #
-        # Journal
+        # Optional Journal
         #
 
         if self.journal is not None:
@@ -140,52 +106,37 @@ class DecisionPipeline:
             )
 
         #
-        # Performance Observation
+        # Risk Evaluation
         #
 
-        # Performance updates after completed trades,
-        # so nothing is recorded here yet.
+        trade_plan = self.risk.evaluate(
+            composite=composite,
+            strategy=strategy_result,
+            confluence=confluence,
+            entry_price=entry_price,
+        )
 
         #
-        # Risk
+        # Final Result
         #
-
-        risk_result = None
-
-        if self.risk is not None:
-            risk_result = self.risk.evaluate(
-                confluence,
-            )
-
-        #
-        # Execution
-        #
-
-        execution_result = None
-
-        if self.execution is not None and risk_result is not None:
-            execution_result = self.execution.execute(
-                risk_result,
-            )
 
         return DecisionResult(
             analytics=analytics,
             composite=composite,
             strategy=strategy_result,
             confluence=confluence,
-            risk=risk_result,
-            execution=execution_result,
+            trade_plan=trade_plan,
         )
 
     # =====================================================
 
     def reset(self):
 
-        self.analytics.reset()
-
         self.composite.reset()
 
         self.strategy.reset()
+
+        self.risk.reset()
 
     # =====================================================
 

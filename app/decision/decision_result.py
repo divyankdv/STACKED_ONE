@@ -18,6 +18,7 @@ from dataclasses import dataclass
 
 from app.analytics.analytics_snapshot import AnalyticsSnapshot
 from app.confluence.confluence_result import ConfluenceResult
+from app.risk.trade_plan import TradePlan
 
 
 @dataclass(slots=True)
@@ -34,13 +35,10 @@ class DecisionResult:
 
     confluence: ConfluenceResult
 
-    risk: object | None
-
-    execution: object | None
+    trade_plan: TradePlan
 
     # =====================================================
 
     @property
     def executable(self) -> bool:
-
-        return self.risk is not None
+        return self.trade_plan.approved
