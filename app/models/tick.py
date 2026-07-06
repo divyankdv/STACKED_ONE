@@ -24,3 +24,15 @@ class Tick:
     volume: float
 
     side: str
+
+    @property
+    def size(self) -> float:
+        return self.volume
+
+    @property
+    def is_buy(self) -> bool:
+        return self.side.lower() == "buy"
+
+    @property
+    def is_sell(self) -> bool:
+        return self.side.lower() == "sell"
