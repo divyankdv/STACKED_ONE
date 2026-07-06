@@ -68,18 +68,16 @@ class StrategySignal:
 
         return self.side == SignalSide.BUY
 
-
     @property
     def is_sell(self):
 
         return self.side == SignalSide.SELL
 
-
     @property
     def is_neutral(self):
 
         return self.side == SignalSide.NEUTRAL
-    
+
     # =====================================================
     # String
     # =====================================================
@@ -87,17 +85,11 @@ class StrategySignal:
     def __str__(self):
 
         return (
-
             "StrategySignal("
-
             f"strategy={self.strategy}, "
-
             f"side={self.side}, "
-
             f"confidence={self.confidence:.2f}"
-
             ")"
-
         )
 
     __repr__ = __str__

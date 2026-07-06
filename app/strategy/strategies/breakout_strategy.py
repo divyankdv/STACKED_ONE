@@ -25,19 +25,12 @@ from app.strategy.vote_builder import VoteBuilder
 
 
 class BreakoutStrategy(BaseStrategy):
-
     metadata = StrategyMetadata(
-
         name="Breakout",
-
         description="Detects institutional breakout.",
-
         category="Momentum",
-
         timeframe="Any",
-
         version="3.0",
-
     )
 
     # =====================================================
@@ -45,11 +38,8 @@ class BreakoutStrategy(BaseStrategy):
     # =====================================================
 
     def evaluate(
-
         self,
-
         context,
-
     ) -> StrategySignal:
 
         analytics = context.analytics
@@ -63,13 +53,9 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         confidence.add(
-
             context.liquidity.state == "HIGH",
-
             settings.breakout_liquidity_weight,
-
             "High liquidity",
-
         )
 
         # =====================================================
@@ -77,31 +63,20 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         if analytics.iceberg.active:
-
             confidence.add(
-
                 True,
-
                 settings.breakout_iceberg_weight,
-
                 "Iceberg detected",
-
             )
 
             votes.bullish(
-
                 analytics.iceberg.side == "buy",
-
                 "BUY Iceberg",
-
             )
 
             votes.bearish(
-
                 analytics.iceberg.side == "sell",
-
                 "SELL Iceberg",
-
             )
 
         # =====================================================
@@ -109,35 +84,22 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         if analytics.large_trades.total_large_trades > 0:
-
             confidence.add(
-
                 True,
-
                 settings.breakout_large_trade_weight,
-
                 "Institutional large trades",
-
             )
 
             votes.bullish(
-
-                analytics.large_trades.buy_large_trades >
-
-                analytics.large_trades.sell_large_trades,
-
+                analytics.large_trades.buy_large_trades
+                > analytics.large_trades.sell_large_trades,
                 "Buy Large Trades",
-
             )
 
             votes.bearish(
-
-                analytics.large_trades.sell_large_trades >
-
-                analytics.large_trades.buy_large_trades,
-
+                analytics.large_trades.sell_large_trades
+                > analytics.large_trades.buy_large_trades,
                 "Sell Large Trades",
-
             )
 
         # =====================================================
@@ -145,39 +107,25 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         confidence.add(
-
             analytics.cvd.current > 0,
-
             settings.breakout_cvd_weight,
-
             "Positive CVD",
-
         )
 
         confidence.add(
-
             analytics.cvd.current < 0,
-
             settings.breakout_cvd_weight,
-
             "Negative CVD",
-
         )
 
         votes.bullish(
-
             analytics.cvd.current > 0,
-
             "Positive CVD",
-
         )
 
         votes.bearish(
-
             analytics.cvd.current < 0,
-
             "Negative CVD",
-
         )
 
         # =====================================================
@@ -185,39 +133,25 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         confidence.add(
-
             analytics.order_flow.buy_aggression >= 70,
-
             0.10,
-
             "Strong Buy Aggression",
-
         )
 
         confidence.add(
-
             analytics.order_flow.sell_aggression >= 70,
-
             0.10,
-
             "Strong Sell Aggression",
-
         )
 
         votes.bullish(
-
             analytics.order_flow.buy_aggression >= 70,
-
             "Buy Aggression",
-
         )
 
         votes.bearish(
-
             analytics.order_flow.sell_aggression >= 70,
-
             "Sell Aggression",
-
         )
 
         # =====================================================
@@ -225,23 +159,15 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         confidence.add_negative(
-
             context.exhaustion.buyer_exhausted,
-
             0.25,
-
             "Buyer Exhaustion",
-
         )
 
         confidence.add_negative(
-
             context.exhaustion.seller_exhausted,
-
             0.25,
-
             "Seller Exhaustion",
-
         )
 
         # =====================================================
@@ -249,13 +175,9 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         side = DecisionPolicy.decide(
-
             confidence=confidence.confidence,
-
             bullish_votes=votes.bullish_votes,
-
             bearish_votes=votes.bearish_votes,
-
         )
 
         # =====================================================
@@ -269,15 +191,9 @@ class BreakoutStrategy(BaseStrategy):
         # =====================================================
 
         return StrategySignal(
-
             strategy=self.name,
-
             side=side,
-
             confidence=confidence.confidence,
-
             score=confidence.score,
-
             reasons=reasons,
-
         )

@@ -126,10 +126,6 @@ class MarketDataSource(ABC):
 
     def __str__(self):
 
-        return (
-            f"{self.__class__.__name__}("
-            f"{self.current_index}/{self.event_count}"
-            ")"
-        )
+        return f"{self.__class__.__name__}({self.current_index}/{self.event_count})"
 
     __repr__ = __str__

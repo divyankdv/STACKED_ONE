@@ -32,13 +32,9 @@ class DecisionPolicy:
 
     @staticmethod
     def decide(
-
         confidence: float,
-
         bullish_votes: int,
-
         bearish_votes: int,
-
     ) -> SignalSide:
 
         #
@@ -46,7 +42,6 @@ class DecisionPolicy:
         #
 
         if confidence < settings.strategy_signal_threshold:
-
             return SignalSide.NEUTRAL
 
         #
@@ -60,7 +55,6 @@ class DecisionPolicy:
         #
 
         if bullish_votes >= bearish_votes + vote_margin:
-
             return SignalSide.BUY
 
         #
@@ -68,7 +62,6 @@ class DecisionPolicy:
         #
 
         if bearish_votes >= bullish_votes + vote_margin:
-
             return SignalSide.SELL
 
         #
@@ -83,21 +76,13 @@ class DecisionPolicy:
 
     @staticmethod
     def consensus(
-
         bullish_votes: int,
-
         bearish_votes: int,
-
     ) -> float:
 
         total = bullish_votes + bearish_votes
 
         if total == 0:
-
             return 0.0
 
-        return abs(
-
-            bullish_votes - bearish_votes
-
-        ) / total
+        return abs(bullish_votes - bearish_votes) / total

@@ -24,7 +24,6 @@ from app.execution.order_type import OrderType
 
 @dataclass(slots=True)
 class OrderRequest:
-
     """
     Order submitted to a broker.
     """
@@ -33,9 +32,7 @@ class OrderRequest:
     # Identity
     #
 
-    order_id: str = field(
-        default_factory=lambda: str(uuid4())
-    )
+    order_id: str = field(default_factory=lambda: str(uuid4()))
 
     #
     # Instrument
@@ -87,18 +84,6 @@ class OrderRequest:
 
     def __str__(self):
 
-        return (
-
-            "OrderRequest("
-
-            f"{self.side.value}, "
-
-            f"{self.quantity:.4f}, "
-
-            f"{self.symbol}"
-
-            ")"
-
-        )
+        return f"OrderRequest({self.side.value}, {self.quantity:.4f}, {self.symbol})"
 
     __repr__ = __str__

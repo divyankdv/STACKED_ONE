@@ -14,7 +14,6 @@ from enum import StrEnum
 
 
 class OrderStatus(StrEnum):
-
     PENDING = "PENDING"
 
     SUBMITTED = "SUBMITTED"

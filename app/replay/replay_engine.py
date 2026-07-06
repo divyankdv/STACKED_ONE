@@ -194,6 +194,14 @@ class ReplayEngine:
         return self.session is not None and self.session.state == ReplayState.PLAYING
 
     # =====================================================
+    # Iterator
+    # =====================================================
+
+    def __iter__(self):
+
+        return iter(self.provider)
+
+    # =====================================================
     # String
     # =====================================================
 

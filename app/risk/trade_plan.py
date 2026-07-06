@@ -35,7 +35,7 @@ class TradePlan:
 
     approved: bool
 
-    reason: str
+    reasons: tuple[str, ...]
 
     side: SignalSide
 

@@ -12,7 +12,6 @@ Every engine inherits from this class.
 
 
 class BaseEngine:
-
     def initialize(self):
         """
         Called once during startup.

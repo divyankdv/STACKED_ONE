@@ -3,7 +3,6 @@ from dataclasses import dataclass
 
 @dataclass(slots=True)
 class StrategyProfile:
-
     name: str
 
     reliability: float = 1.0

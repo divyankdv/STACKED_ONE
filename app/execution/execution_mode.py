@@ -14,7 +14,6 @@ from enum import StrEnum
 
 
 class ExecutionMode(StrEnum):
-
     PAPER = "PAPER"
 
     LIVE = "LIVE"

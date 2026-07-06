@@ -40,17 +40,11 @@ class BaseStrategy(ABC):
     # =====================================================
 
     metadata = StrategyMetadata(
-
         name="Base Strategy",
-
         description="Abstract base strategy.",
-
         version="1.0",
-
         category="General",
-
         timeframe="Any",
-
     )
 
     # =====================================================
@@ -59,11 +53,8 @@ class BaseStrategy(ABC):
 
     @abstractmethod
     def evaluate(
-
         self,
-
         context: CompositeAnalyticsContext,
-
     ) -> StrategySignal:
         """
         Evaluate the current market state and return a signal.
@@ -76,11 +67,8 @@ class BaseStrategy(ABC):
     # =====================================================
 
     def can_evaluate(
-
         self,
-
         context: CompositeAnalyticsContext,
-
     ) -> bool:
         """
         Override if the strategy has prerequisites.
@@ -151,15 +139,10 @@ class BaseStrategy(ABC):
     def __str__(self):
 
         return (
-
             f"{self.__class__.__name__}"
-
             f"(name={self.name}, "
-
             f"version={self.version}, "
-
             f"enabled={self.enabled})"
-
         )
 
     __repr__ = __str__

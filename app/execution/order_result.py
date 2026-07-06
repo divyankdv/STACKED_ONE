@@ -17,7 +17,6 @@ from app.execution.order import Order
 
 @dataclass(slots=True)
 class OrderResult:
-
     """
     Result returned by a Broker.
     """
@@ -34,16 +33,6 @@ class OrderResult:
 
     def __str__(self):
 
-        return (
-
-            "OrderResult("
-
-            f"{self.success}, "
-
-            f"{self.message}"
-
-            ")"
-
-        )
+        return f"OrderResult({self.success}, {self.message})"
 
     __repr__ = __str__

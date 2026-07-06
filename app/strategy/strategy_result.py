@@ -31,9 +31,7 @@ class StrategyResult:
     # =====================================================
 
     signals: tuple[StrategySignal, ...] = field(
-
         default_factory=tuple,
-
     )
 
     # =====================================================
@@ -49,15 +47,7 @@ class StrategyResult:
     @property
     def buy_signals(self) -> tuple[StrategySignal, ...]:
 
-        return tuple(
-
-            signal
-
-            for signal in self.signals
-
-            if signal.side == SignalSide.BUY
-
-        )
+        return tuple(signal for signal in self.signals if signal.side == SignalSide.BUY)
 
     # =====================================================
     # SELL Signals
@@ -67,13 +57,7 @@ class StrategyResult:
     def sell_signals(self) -> tuple[StrategySignal, ...]:
 
         return tuple(
-
-            signal
-
-            for signal in self.signals
-
-            if signal.side == SignalSide.SELL
-
+            signal for signal in self.signals if signal.side == SignalSide.SELL
         )
 
     # =====================================================
@@ -84,13 +68,7 @@ class StrategyResult:
     def neutral_signals(self) -> tuple[StrategySignal, ...]:
 
         return tuple(
-
-            signal
-
-            for signal in self.signals
-
-            if signal.side == SignalSide.NEUTRAL
-
+            signal for signal in self.signals if signal.side == SignalSide.NEUTRAL
         )
 
     # =====================================================
@@ -101,36 +79,28 @@ class StrategyResult:
     def buy_count(self) -> int:
 
         return len(
-
             self.buy_signals,
-
         )
 
     @property
     def sell_count(self) -> int:
 
         return len(
-
             self.sell_signals,
-
         )
 
     @property
     def neutral_count(self) -> int:
 
         return len(
-
             self.neutral_signals,
-
         )
 
     @property
     def strategy_count(self) -> int:
 
         return len(
-
             self.signals,
-
         )
 
     # =====================================================
@@ -141,11 +111,9 @@ class StrategyResult:
     def consensus(self) -> SignalSide:
 
         if self.buy_count > self.sell_count:
-
             return SignalSide.BUY
 
         if self.sell_count > self.buy_count:
-
             return SignalSide.SELL
 
         return SignalSide.NEUTRAL
@@ -158,7 +126,6 @@ class StrategyResult:
     def confidence(self) -> float:
 
         if self.best_signal is None:
-
             return 0.0
 
         return self.best_signal.confidence
@@ -169,30 +136,15 @@ class StrategyResult:
 
     def __str__(self):
 
-        best = (
-
-            self.best_signal.strategy
-
-            if self.best_signal
-
-            else "None"
-
-        )
+        best = self.best_signal.strategy if self.best_signal else "None"
 
         return (
-
             "StrategyResult("
-
             f"strategies={self.strategy_count}, "
-
             f"best={best}, "
-
             f"consensus={self.consensus.value}, "
-
             f"confidence={self.confidence:.2f}"
-
             ")"
-
         )
 
     __repr__ = __str__

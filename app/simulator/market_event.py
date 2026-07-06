@@ -117,15 +117,7 @@ class MarketEvent:
     @property
     def has_orderbook(self) -> bool:
 
-        return (
-
-            self.bid > 0
-
-            and
-
-            self.ask > 0
-
-        )
+        return self.bid > 0 and self.ask > 0
 
     # =====================================================
     # String
@@ -142,19 +134,7 @@ class MarketEvent:
             side = "SELL"
 
         return (
-
-            "MarketEvent("
-
-            f"{self.symbol}, "
-
-            f"{side}, "
-
-            f"{self.price:.2f}, "
-
-            f"{self.quantity:.4f}"
-
-            ")"
-
+            f"MarketEvent({self.symbol}, {side}, {self.price:.2f}, {self.quantity:.4f})"
         )
 
     __repr__ = __str__

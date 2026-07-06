@@ -30,11 +30,8 @@ class Subscriber(ABC):
 
     @abstractmethod
     def on_event(
-
         self,
-
         event: Event,
-
     ) -> None:
         """
         Called whenever an event is published.

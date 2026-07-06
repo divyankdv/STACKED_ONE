@@ -25,7 +25,6 @@ from app.simulator.market_event import MarketEvent
 
 @dataclass(slots=True)
 class ReplayStatistics:
-
     events_processed: int = 0
 
     candles_completed: int = 0
@@ -34,7 +33,6 @@ class ReplayStatistics:
 
 
 class ReplayEngine:
-
     """
     Generic replay engine.
 
@@ -65,7 +63,6 @@ class ReplayEngine:
     # =====================================================
 
     def run(self):
-
         """
         Replay every market event.
         """
@@ -75,7 +72,6 @@ class ReplayEngine:
         self.source.reset()
 
         for event in self.source:
-
             self.process_event(event)
 
         return self.statistics
@@ -148,14 +144,6 @@ class ReplayEngine:
 
     def __str__(self):
 
-        return (
-
-            "ReplayEngine("
-
-            f"{self.statistics.events_processed} events"
-
-            ")"
-
-        )
+        return f"ReplayEngine({self.statistics.events_processed} events)"
 
     __repr__ = __str__

@@ -33,7 +33,6 @@ from app.strategy.signal_side import SignalSide
 
 
 class ExecutionEngine:
-
     """
     Executes approved TradePlans.
     """
@@ -41,11 +40,8 @@ class ExecutionEngine:
     # =====================================================
 
     def __init__(
-
         self,
-
         broker: Broker | None = None,
-
     ):
 
         #
@@ -57,13 +53,9 @@ class ExecutionEngine:
     # =====================================================
 
     def execute(
-
         self,
-
         trade_plan: TradePlan,
-
         market: MarketSnapshot,
-
     ) -> OrderResult:
 
         #
@@ -71,15 +63,10 @@ class ExecutionEngine:
         #
 
         if not trade_plan.approved:
-
             return OrderResult(
-
                 success=False,
-
-                message=trade_plan.reason,
-
+                message="; ".join(trade_plan.notes),
                 order=None,
-
             )
 
         #
@@ -87,15 +74,10 @@ class ExecutionEngine:
         #
 
         if not market.valid:
-
             return OrderResult(
-
                 success=False,
-
                 message="Invalid market snapshot.",
-
                 order=None,
-
             )
 
         #
@@ -103,23 +85,16 @@ class ExecutionEngine:
         #
 
         if trade_plan.side == SignalSide.BUY:
-
             side = OrderSide.BUY
 
         elif trade_plan.side == SignalSide.SELL:
-
             side = OrderSide.SELL
 
         else:
-
             return OrderResult(
-
                 success=False,
-
                 message="Neutral trade plan.",
-
                 order=None,
-
             )
 
         #
@@ -127,11 +102,9 @@ class ExecutionEngine:
         #
 
         if side == OrderSide.BUY:
-
             execution_price = market.ask
 
         else:
-
             execution_price = market.bid
 
         #
@@ -139,21 +112,13 @@ class ExecutionEngine:
         #
 
         request = OrderRequest(
-
             symbol=trade_plan.symbol,
-
             side=side,
-
             order_type=OrderType.MARKET,
-
             quantity=trade_plan.position_size,
-
             price=execution_price,
-
             stop_price=trade_plan.stop_price,
-
             client_tag="STACKED_ONE",
-
         )
 
         #
@@ -161,9 +126,7 @@ class ExecutionEngine:
         #
 
         return self.broker.submit_order(
-
             request,
-
         )
 
     # =====================================================
@@ -177,14 +140,6 @@ class ExecutionEngine:
 
     def __str__(self):
 
-        return (
-
-            "ExecutionEngine("
-
-            f"{self.broker_name}"
-
-            ")"
-
-        )
+        return f"ExecutionEngine({self.broker_name})"
 
     __repr__ = __str__

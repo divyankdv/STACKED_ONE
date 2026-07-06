@@ -36,27 +36,19 @@ from app.strategy.strategies.reversal_strategy import (
 # ==========================================================
 
 STRATEGY_REGISTRY: tuple[type[BaseStrategy], ...] = (
-
     #
     # Institutional Strategies
     #
-
     AccumulationStrategy,
-
     DistributionStrategy,
-
     #
     # Momentum Strategy
     #
-
     BreakoutStrategy,
-
     #
     # Mean Reversion Strategy
     #
-
     ReversalStrategy,
-
 )
 
 
@@ -64,15 +56,14 @@ STRATEGY_REGISTRY: tuple[type[BaseStrategy], ...] = (
 # Registry Helpers
 # ==========================================================
 
+
 def strategy_count() -> int:
     """
     Total number of registered strategies.
     """
 
     return len(
-
         STRATEGY_REGISTRY,
-
     )
 
 
@@ -81,15 +72,7 @@ def strategy_names() -> tuple[str, ...]:
     Returns strategy class names.
     """
 
-    return tuple(
-
-        strategy.__name__
-
-        for strategy
-
-        in STRATEGY_REGISTRY
-
-    )
+    return tuple(strategy.__name__ for strategy in STRATEGY_REGISTRY)
 
 
 def create_strategies() -> tuple[BaseStrategy, ...]:
@@ -97,29 +80,14 @@ def create_strategies() -> tuple[BaseStrategy, ...]:
     Instantiates every registered strategy.
     """
 
-    return tuple(
-
-        strategy()
-
-        for strategy
-
-        in STRATEGY_REGISTRY
-
-    )
+    return tuple(strategy() for strategy in STRATEGY_REGISTRY)
 
 
 # ==========================================================
 # String
 # ==========================================================
 
+
 def __str__():
 
-    return (
-
-        "StrategyRegistry("
-
-        f"{strategy_count()} strategies"
-
-        ")"
-
-    )
+    return f"StrategyRegistry({strategy_count()} strategies)"

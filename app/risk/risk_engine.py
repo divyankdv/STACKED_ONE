@@ -224,7 +224,7 @@ class RiskEngine:
 
             approved=True,
 
-            reason="Approved",
+            reasons=("Approved",),
 
             side=confluence.side,
 
@@ -278,7 +278,7 @@ class RiskEngine:
 
             approved=False,
 
-            reason=reason,
+            reasons=(reason,),
 
             side=confluence.side,
 

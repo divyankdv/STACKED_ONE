@@ -24,29 +24,19 @@ from app.strategy.vote_builder import VoteBuilder
 
 
 class ReversalStrategy(BaseStrategy):
-
     metadata = StrategyMetadata(
-
         name="Reversal",
-
         description="Detects exhaustion driven reversals.",
-
         category="Mean Reversion",
-
         timeframe="Any",
-
         version="1.0",
-
     )
 
     # =====================================================
 
     def evaluate(
-
         self,
-
         context,
-
     ) -> StrategySignal:
 
         analytics = context.analytics
@@ -60,21 +50,14 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             context.exhaustion.buyer_exhausted,
-
             settings.reversal_exhaustion_weight,
-
             "Buyer Exhaustion",
-
         )
 
         votes.bearish(
-
             context.exhaustion.buyer_exhausted,
-
             "Buyer Exhaustion",
-
         )
 
         #
@@ -82,21 +65,14 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             context.exhaustion.seller_exhausted,
-
             settings.reversal_exhaustion_weight,
-
             "Seller Exhaustion",
-
         )
 
         votes.bullish(
-
             context.exhaustion.seller_exhausted,
-
             "Seller Exhaustion",
-
         )
 
         #
@@ -104,27 +80,16 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             analytics.absorption.active
-            and analytics.absorption.bullish_score
-            >
-            analytics.absorption.bearish_score,
-
+            and analytics.absorption.bullish_score > analytics.absorption.bearish_score,
             settings.reversal_absorption_weight,
-
             "Bullish Absorption",
-
         )
 
         votes.bullish(
-
             analytics.absorption.active
-            and analytics.absorption.bullish_score
-            >
-            analytics.absorption.bearish_score,
-
+            and analytics.absorption.bullish_score > analytics.absorption.bearish_score,
             "Bullish Absorption",
-
         )
 
         #
@@ -132,27 +97,16 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             analytics.absorption.active
-            and analytics.absorption.bearish_score
-            >
-            analytics.absorption.bullish_score,
-
+            and analytics.absorption.bearish_score > analytics.absorption.bullish_score,
             settings.reversal_absorption_weight,
-
             "Bearish Absorption",
-
         )
 
         votes.bearish(
-
             analytics.absorption.active
-            and analytics.absorption.bearish_score
-            >
-            analytics.absorption.bullish_score,
-
+            and analytics.absorption.bearish_score > analytics.absorption.bullish_score,
             "Bearish Absorption",
-
         )
 
         #
@@ -160,21 +114,14 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             analytics.cvd.current > 0,
-
             settings.reversal_cvd_weight,
-
             "Positive CVD",
-
         )
 
         votes.bullish(
-
             analytics.cvd.current > 0,
-
             "Positive CVD",
-
         )
 
         #
@@ -182,21 +129,14 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add(
-
             analytics.cvd.current < 0,
-
             settings.reversal_cvd_weight,
-
             "Negative CVD",
-
         )
 
         votes.bearish(
-
             analytics.cvd.current < 0,
-
             "Negative CVD",
-
         )
 
         #
@@ -204,23 +144,15 @@ class ReversalStrategy(BaseStrategy):
         #
 
         confidence.add_negative(
-
             context.smart_money.accumulating,
-
             0.15,
-
             "Accumulation",
-
         )
 
         confidence.add_negative(
-
             context.smart_money.distributing,
-
             0.15,
-
             "Distribution",
-
         )
 
         #
@@ -228,13 +160,9 @@ class ReversalStrategy(BaseStrategy):
         #
 
         side = DecisionPolicy.decide(
-
             confidence=confidence.confidence,
-
             bullish_votes=votes.bullish_votes,
-
             bearish_votes=votes.bearish_votes,
-
         )
 
         #
@@ -242,15 +170,9 @@ class ReversalStrategy(BaseStrategy):
         #
 
         return StrategySignal(
-
             strategy=self.name,
-
             side=side,
-
             confidence=confidence.confidence,
-
             score=confidence.score,
-
             reasons=confidence.reasons + votes.all_reasons,
-
         )

@@ -53,17 +53,12 @@ class VoteBuilder:
     # =====================================================
 
     def bullish(
-
         self,
-
         condition: bool,
-
         reason: str,
-
     ) -> bool:
 
         if condition:
-
             self._bullish += 1
 
             self._bullish_reasons.append(reason)
@@ -75,17 +70,12 @@ class VoteBuilder:
     # =====================================================
 
     def bearish(
-
         self,
-
         condition: bool,
-
         reason: str,
-
     ) -> bool:
 
         if condition:
-
             self._bearish += 1
 
             self._bearish_reasons.append(reason)
@@ -124,25 +114,15 @@ class VoteBuilder:
     @property
     def all_reasons(self) -> tuple[str, ...]:
 
-        return tuple(
-
-            self._bullish_reasons
-
-            +
-
-            self._bearish_reasons
-
-        )
+        return tuple(self._bullish_reasons + self._bearish_reasons)
 
     @property
     def dominant_side(self) -> str:
 
         if self._bullish > self._bearish:
-
             return "BUY"
 
         if self._bearish > self._bullish:
-
             return "SELL"
 
         return "NEUTRAL"
@@ -153,16 +133,9 @@ class VoteBuilder:
         total = self.total_votes
 
         if total == 0:
-
             return 0.0
 
-        return abs(
-
-            self._bullish -
-
-            self._bearish
-
-        ) / total
+        return abs(self._bullish - self._bearish) / total
 
     @property
     def empty(self) -> bool:
@@ -176,17 +149,11 @@ class VoteBuilder:
     def __str__(self):
 
         return (
-
             "VoteBuilder("
-
             f"bullish={self._bullish}, "
-
             f"bearish={self._bearish}, "
-
             f"consensus={self.consensus:.2f}"
-
             ")"
-
         )
 
     __repr__ = __str__

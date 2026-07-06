@@ -24,7 +24,6 @@ from app.execution.order_result import OrderResult
 
 
 class Broker(ABC):
-
     """
     Base broker interface.
     """
@@ -35,11 +34,8 @@ class Broker(ABC):
 
     @abstractmethod
     def submit_order(
-
         self,
-
         request: OrderRequest,
-
     ) -> OrderResult:
         """
         Submit a new order.
@@ -52,11 +48,8 @@ class Broker(ABC):
 
     @abstractmethod
     def cancel_order(
-
         self,
-
         order: Order,
-
     ) -> bool:
         """
         Cancel an order.

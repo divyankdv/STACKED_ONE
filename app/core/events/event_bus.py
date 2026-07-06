@@ -32,7 +32,6 @@ from app.core.events.subscriber import Subscriber
 
 
 class EventBus:
-
     """
     Central event dispatcher.
     """
@@ -42,11 +41,8 @@ class EventBus:
     # =====================================================
 
     def __init__(
-
         self,
-
         history_size: int = 1000,
-
     ):
 
         self._subscribers: dict[
@@ -55,9 +51,7 @@ class EventBus:
         ] = defaultdict(list)
 
         self._history: deque[Event] = deque(
-
             maxlen=history_size,
-
         )
 
         self._publish_count = 0
@@ -69,25 +63,17 @@ class EventBus:
     # =====================================================
 
     def subscribe(
-
         self,
-
         event_type: EventType,
-
         subscriber: Subscriber,
-
     ) -> None:
 
         with self._lock:
-
             subscribers = self._subscribers[event_type]
 
             if subscriber not in subscribers:
-
                 subscribers.append(
-
                     subscriber,
-
                 )
 
     # =====================================================
@@ -95,33 +81,22 @@ class EventBus:
     # =====================================================
 
     def unsubscribe(
-
         self,
-
         event_type: EventType,
-
         subscriber: Subscriber,
-
     ) -> None:
 
         with self._lock:
-
             subscribers = self._subscribers.get(
-
                 event_type,
-
             )
 
             if not subscribers:
-
                 return
 
             if subscriber in subscribers:
-
                 subscribers.remove(
-
                     subscriber,
-
                 )
 
     # =====================================================
@@ -129,11 +104,8 @@ class EventBus:
     # =====================================================
 
     def publish(
-
         self,
-
         event: Event,
-
     ) -> None:
 
         #
@@ -141,25 +113,17 @@ class EventBus:
         #
 
         with self._lock:
-
             self._publish_count += 1
 
             self._history.append(
-
                 event,
-
             )
 
             subscribers = tuple(
-
                 self._subscribers.get(
-
                     event.event_type,
-
                     (),
-
                 )
-
             )
 
         #
@@ -167,31 +131,18 @@ class EventBus:
         #
 
         for subscriber in subscribers:
-
             try:
-
                 subscriber.on_event(
-
                     event,
-
                 )
 
             except Exception as exc:
-
                 #
                 # Never allow one subscriber
                 # to stop the bus.
                 #
 
-                print(
-
-                    f"[EVENT BUS] "
-
-                    f"{subscriber.name} "
-
-                    f"failed: {exc}"
-
-                )
+                print(f"[EVENT BUS] {subscriber.name} failed: {exc}")
 
     # =====================================================
     # Clear
@@ -200,7 +151,6 @@ class EventBus:
     def clear(self):
 
         with self._lock:
-
             self._subscribers.clear()
 
             self._history.clear()
@@ -215,18 +165,14 @@ class EventBus:
     def history(self):
 
         return tuple(
-
             self._history,
-
         )
 
     @property
     def history_size(self):
 
         return len(
-
             self._history,
-
         )
 
     # =====================================================
@@ -241,47 +187,27 @@ class EventBus:
     @property
     def subscriber_count(self):
 
-        return sum(
-
-            len(subscribers)
-
-            for subscribers
-
-            in self._subscribers.values()
-
-        )
+        return sum(len(subscribers) for subscribers in self._subscribers.values())
 
     @property
     def event_types(self):
 
-        return tuple(
-
-            self._subscribers.keys()
-
-        )
+        return tuple(self._subscribers.keys())
 
     # =====================================================
     # Lookup
     # =====================================================
 
     def subscribers(
-
         self,
-
         event_type: EventType,
-
     ) -> tuple[Subscriber, ...]:
 
         return tuple(
-
             self._subscribers.get(
-
                 event_type,
-
                 (),
-
             )
-
         )
 
     # =====================================================
@@ -289,29 +215,18 @@ class EventBus:
     # =====================================================
 
     def has_subscribers(
-
         self,
-
         event_type: EventType,
-
     ) -> bool:
 
         return (
-
             len(
-
                 self._subscribers.get(
-
                     event_type,
-
                     (),
-
                 )
-
             )
-
             > 0
-
         )
 
     # =====================================================
@@ -325,17 +240,11 @@ class EventBus:
     def __str__(self):
 
         return (
-
             "EventBus("
-
             f"events={self.publish_count}, "
-
             f"subscribers={self.subscriber_count}, "
-
             f"history={self.history_size}"
-
             ")"
-
         )
 
     __repr__ = __str__

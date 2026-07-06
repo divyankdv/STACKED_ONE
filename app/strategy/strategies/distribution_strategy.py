@@ -25,19 +25,12 @@ from app.strategy.strategy_signal import StrategySignal
 
 
 class DistributionStrategy(BaseStrategy):
-
     metadata = StrategyMetadata(
-
         name="Distribution",
-
         description="Detects institutional distribution.",
-
         category="Institutional",
-
         timeframe="Any",
-
         version="1.0",
-
     )
 
     # =====================================================
@@ -45,11 +38,8 @@ class DistributionStrategy(BaseStrategy):
     # =====================================================
 
     def evaluate(
-
         self,
-
         context,
-
     ) -> StrategySignal:
 
         builder = ConfidenceBuilder()
@@ -61,13 +51,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.liquidity.state == "HIGH",
-
             settings.distribution_liquidity_weight,
-
             "High liquidity",
-
         )
 
         #
@@ -77,13 +63,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.smart_money.distributing,
-
             settings.distribution_smart_money_weight,
-
             "Institutional distribution",
-
         )
 
         #
@@ -93,13 +75,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.regime.regime == MarketRegime.DISTRIBUTION,
-
             settings.distribution_regime_weight,
-
             "Distribution regime",
-
         )
 
         #
@@ -109,13 +87,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.analytics.cvd.current < 0,
-
             settings.distribution_cvd_weight,
-
             "Negative CVD",
-
         )
 
         #
@@ -125,23 +99,15 @@ class DistributionStrategy(BaseStrategy):
         #
 
         builder.add_negative(
-
             context.smart_money.accumulating,
-
             0.30,
-
             "Accumulation detected",
-
         )
 
         builder.add_negative(
-
             context.analytics.cvd.current > 0,
-
             0.20,
-
             "Positive CVD",
-
         )
 
         #
@@ -151,11 +117,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         if builder.confidence >= settings.strategy_signal_threshold:
-
             side = SignalSide.SELL
 
         else:
-
             side = SignalSide.NEUTRAL
 
         #
@@ -165,15 +129,9 @@ class DistributionStrategy(BaseStrategy):
         #
 
         return StrategySignal(
-
             strategy=self.name,
-
             side=side,
-
             confidence=builder.confidence,
-
             score=builder.score,
-
             reasons=builder.reasons,
-
         )

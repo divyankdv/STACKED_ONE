@@ -65,8 +65,7 @@ class StrategyEngine:
     def __init__(self) -> None:
 
         self._strategies: tuple[BaseStrategy, ...] = tuple(
-            strategy()
-            for strategy in STRATEGY_REGISTRY
+            strategy() for strategy in STRATEGY_REGISTRY
         )
 
     # =====================================================
@@ -93,7 +92,6 @@ class StrategyEngine:
         signal_list: list[StrategySignal] = []
 
         for strategy in self._strategies:
-
             if not strategy.can_evaluate(context):
                 continue
 
@@ -129,7 +127,6 @@ class StrategyEngine:
     ) -> BaseStrategy | None:
 
         for strategy in self._strategies:
-
             if strategy.name == name:
                 return strategy
 
@@ -143,11 +140,7 @@ class StrategyEngine:
         self,
     ) -> tuple[BaseStrategy, ...]:
 
-        return tuple(
-            strategy
-            for strategy in self._strategies
-            if strategy.enabled
-        )
+        return tuple(strategy for strategy in self._strategies if strategy.enabled)
 
     # =====================================================
     # Disabled Strategies
@@ -157,11 +150,7 @@ class StrategyEngine:
         self,
     ) -> tuple[BaseStrategy, ...]:
 
-        return tuple(
-            strategy
-            for strategy in self._strategies
-            if not strategy.enabled
-        )
+        return tuple(strategy for strategy in self._strategies if not strategy.enabled)
 
     # =====================================================
     # Magic Methods
@@ -174,10 +163,6 @@ class StrategyEngine:
         return iter(self._strategies)
 
     def __str__(self) -> str:
-        return (
-            "StrategyEngine("
-            f"strategies={self.strategy_count}"
-            ")"
-        )
+        return f"StrategyEngine(strategies={self.strategy_count})"
 
     __repr__ = __str__

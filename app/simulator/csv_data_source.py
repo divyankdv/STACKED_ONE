@@ -110,7 +110,6 @@ class CSVDataSource(MarketDataSource):
             newline="",
             encoding="utf-8",
         ) as f:
-
             reader = csv.DictReader(f)
 
             required = {
@@ -122,9 +121,7 @@ class CSVDataSource(MarketDataSource):
             missing = required.difference(reader.fieldnames or [])
 
             if missing:
-                raise ValueError(
-                    f"CSV missing required columns: {sorted(missing)}"
-                )
+                raise ValueError(f"CSV missing required columns: {sorted(missing)}")
 
             for row in reader:
                 self._rows.append(row)
@@ -138,7 +135,6 @@ class CSVDataSource(MarketDataSource):
         self._index = 0
 
         while self._index < len(self._rows):
-
             row = self._rows[self._index]
 
             self._index += 1
@@ -154,17 +150,11 @@ class CSVDataSource(MarketDataSource):
         row: dict[str, str],
     ) -> MarketEvent:
 
-        timestamp = self._parse_timestamp(
-            row[self.timestamp_column]
-        )
+        timestamp = self._parse_timestamp(row[self.timestamp_column])
 
-        price = self._float(
-            row.get(self.price_column)
-        )
+        price = self._float(row.get(self.price_column))
 
-        quantity = self._float(
-            row.get(self.quantity_column)
-        )
+        quantity = self._float(row.get(self.quantity_column))
 
         bid = self._float(
             row.get(self.bid_column),
@@ -191,42 +181,27 @@ class CSVDataSource(MarketDataSource):
             default=0,
         )
 
-        aggressor = self._parse_bool(
-            row.get(self.aggressor_column)
-        )
+        aggressor = self._parse_bool(row.get(self.aggressor_column))
 
         return MarketEvent(
-
             trade_id=row.get(
                 self.trade_id_column,
                 "",
             ),
-
             exchange=row.get(
                 self.exchange_column,
                 "UNKNOWN",
             ),
-
             symbol=self.symbol,
-
             timestamp=timestamp,
-
             price=price,
-
             quantity=quantity,
-
             is_buyer_maker=aggressor,
-
             bid=bid,
-
             ask=ask,
-
             bid_size=bid_size,
-
             ask_size=ask_size,
-
             sequence=sequence,
-
         )
 
     # =====================================================
@@ -239,15 +214,12 @@ class CSVDataSource(MarketDataSource):
     ) -> datetime:
 
         if self.timestamp_format:
-
             return datetime.strptime(
                 value,
                 self.timestamp_format,
             )
 
-        return datetime.fromisoformat(
-            value.replace("Z", "+00:00")
-        )
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
     @staticmethod
     def _float(
@@ -331,11 +303,6 @@ class CSVDataSource(MarketDataSource):
 
     def __str__(self):
 
-        return (
-            f"CSVDataSource("
-            f"file='{self.file_name}', "
-            f"events={self.event_count}"
-            f")"
-        )
+        return f"CSVDataSource(file='{self.file_name}', events={self.event_count})"
 
     __repr__ = __str__

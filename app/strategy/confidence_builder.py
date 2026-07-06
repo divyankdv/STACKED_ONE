@@ -48,19 +48,13 @@ class ConfidenceBuilder:
     # =====================================================
 
     def add(
-
         self,
-
         condition: bool,
-
         weight: float,
-
         reason: str,
-
     ) -> bool:
 
         if condition:
-
             self._positive += weight
 
             self._positive_reasons.append(reason)
@@ -72,19 +66,13 @@ class ConfidenceBuilder:
     # =====================================================
 
     def add_negative(
-
         self,
-
         condition: bool,
-
         penalty: float,
-
         reason: str,
-
     ) -> bool:
 
         if condition:
-
             self._negative += penalty
 
             self._negative_reasons.append(reason)
@@ -96,13 +84,9 @@ class ConfidenceBuilder:
     # =====================================================
 
     def add_weight(
-
         self,
-
         weight: float,
-
         reason: str,
-
     ):
 
         self._positive += weight
@@ -132,11 +116,9 @@ class ConfidenceBuilder:
         value = self._positive - self._negative
 
         if value < 0:
-
             value = 0.0
 
         if value > 1.0:
-
             value = 1.0
 
         return value
@@ -159,28 +141,12 @@ class ConfidenceBuilder:
     @property
     def all_messages(self) -> tuple[str, ...]:
 
-        return tuple(
-
-            self._positive_reasons
-
-            +
-
-            self._negative_reasons
-
-        )
+        return tuple(self._positive_reasons + self._negative_reasons)
 
     @property
     def empty(self) -> bool:
 
-        return (
-
-            len(self._positive_reasons)
-
-            +
-
-            len(self._negative_reasons)
-
-        ) == 0
+        return (len(self._positive_reasons) + len(self._negative_reasons)) == 0
 
     # =====================================================
     # String
@@ -189,17 +155,11 @@ class ConfidenceBuilder:
     def __str__(self):
 
         return (
-
             "ConfidenceBuilder("
-
             f"confidence={self.confidence:.2f}, "
-
             f"positive={self.positive:.2f}, "
-
             f"negative={self.negative:.2f}"
-
             ")"
-
         )
 
     __repr__ = __str__

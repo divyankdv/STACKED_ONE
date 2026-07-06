@@ -19,7 +19,6 @@ from app.execution.order_status import OrderStatus
 
 @dataclass(slots=True)
 class Order:
-
     """
     Live order tracked by the OMS.
     """
@@ -34,28 +33,14 @@ class Order:
 
     exchange_order_id: str = ""
 
-    created_at: datetime = field(
+    created_at: datetime = field(default_factory=datetime.utcnow)
 
-        default_factory=datetime.utcnow
-
-    )
-
-    updated_at: datetime = field(
-
-        default_factory=datetime.utcnow
-
-    )
+    updated_at: datetime = field(default_factory=datetime.utcnow)
 
     @property
     def remaining_quantity(self):
 
-        return (
-
-            self.request.quantity -
-
-            self.filled_quantity
-
-        )
+        return self.request.quantity - self.filled_quantity
 
     @property
     def completed(self):
@@ -64,16 +49,6 @@ class Order:
 
     def __str__(self):
 
-        return (
-
-            "Order("
-
-            f"{self.request.symbol}, "
-
-            f"{self.status.value}"
-
-            ")"
-
-        )
+        return f"Order({self.request.symbol}, {self.status.value})"
 
     __repr__ = __str__

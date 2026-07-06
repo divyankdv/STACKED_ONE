@@ -24,15 +24,16 @@ from app.exchange.engines.trade_engine import TradeEngine
 from app.exchange.managers.message_router import MessageRouter
 from app.exchange.managers.websocket_manager import WebSocketManager
 from app.exchange.market_data import market_data
+from app.execution.execution_engine import ExecutionEngine
+from app.performance.performance_manager import PerformanceManager
+from app.pipeline.decision_pipeline import DecisionPipeline
 
 # Data
-from app.runtime.live_runtime import LiveRuntime
 from app.pipeline.market_pipeline import MarketPipeline
-from app.pipeline.decision_pipeline import DecisionPipeline
+from app.portfolio.position_manager import PositionManager
 
 
 class Application:
-
     def __init__(self):
 
         # ==================================================
@@ -68,16 +69,22 @@ class Application:
         self.decision_pipeline = DecisionPipeline()
 
         # ==================================================
-        # Live Runtime
+        # Execution
         # ==================================================
 
-        self.live_runtime = LiveRuntime(
+        self.execution_engine = ExecutionEngine()
 
-            market_pipeline=self.market_pipeline,
+        # ==================================================
+        # Portfolio
+        # ==================================================
 
-            decision_pipeline=self.decision_pipeline,
+        self.position_manager = PositionManager()
 
-        )
+        # ==================================================
+        # Performance
+        # ==================================================
+
+        self.performance_manager = PerformanceManager()
 
         # ==================================================
         # Exchange Engines
@@ -97,7 +104,7 @@ class Application:
 
             router=self.message_router,
 
-            runtime=self.live_runtime,
+            pipeline=self.market_pipeline,
 
         )
 
@@ -108,7 +115,6 @@ class Application:
     async def shutdown(self):
 
         if self.websocket_manager.is_running:
-
             await self.websocket_manager.stop()
 
         self.delta_rest_client.close()

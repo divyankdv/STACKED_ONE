@@ -37,17 +37,9 @@ class Event:
     # Identity
     # =====================================================
 
-    event_id: str = field(
+    event_id: str = field(default_factory=lambda: str(uuid4()))
 
-        default_factory=lambda: str(uuid4())
-
-    )
-
-    correlation_id: str = field(
-
-        default_factory=lambda: str(uuid4())
-
-    )
+    correlation_id: str = field(default_factory=lambda: str(uuid4()))
 
     # =====================================================
     # Event Metadata
@@ -57,11 +49,7 @@ class Event:
 
     source: str = "Unknown"
 
-    timestamp: datetime = field(
-
-        default_factory=datetime.utcnow
-
-    )
+    timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # =====================================================
     # Market Context
@@ -93,19 +81,12 @@ class Event:
     def __str__(self):
 
         return (
-
             "Event("
-
             f"type={self.event_type.value}, "
-
             f"source={self.source}, "
-
             f"symbol={self.symbol}, "
-
             f"id={self.event_id[:8]}"
-
             ")"
-
         )
 
     __repr__ = __str__

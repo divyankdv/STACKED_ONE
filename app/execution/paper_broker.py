@@ -26,7 +26,6 @@ from app.execution.order_status import OrderStatus
 
 
 class PaperBroker(Broker):
-
     """
     Paper trading broker.
     """
@@ -40,57 +39,37 @@ class PaperBroker(Broker):
     # =====================================================
 
     def submit_order(
-
         self,
-
         request: OrderRequest,
-
     ) -> OrderResult:
 
         order = Order(
-
             request=request,
-
             status=OrderStatus.FILLED,
-
             filled_quantity=request.quantity,
-
             average_fill_price=request.price,
-
-            exchange_order_id=f"PAPER-{len(self.orders)+1}",
-
+            exchange_order_id=f"PAPER-{len(self.orders) + 1}",
             updated_at=datetime.utcnow(),
-
         )
 
         self.orders.append(
-
             order,
-
         )
 
         return OrderResult(
-
             success=True,
-
             message="Paper order filled.",
-
             order=order,
-
         )
 
     # =====================================================
 
     def cancel_order(
-
         self,
-
         order: Order,
-
     ) -> bool:
 
         if order.completed:
-
             return False
 
         order.status = OrderStatus.CANCELLED
@@ -103,13 +82,9 @@ class PaperBroker(Broker):
     def balance(self):
 
         return {
-
             "currency": "USD",
-
             "balance": 100000.0,
-
             "available": 100000.0,
-
         }
 
     # =====================================================
@@ -122,17 +97,7 @@ class PaperBroker(Broker):
 
     def open_orders(self):
 
-        return [
-
-            order
-
-            for order
-
-            in self.orders
-
-            if order.status != OrderStatus.FILLED
-
-        ]
+        return [order for order in self.orders if order.status != OrderStatus.FILLED]
 
     # =====================================================
 

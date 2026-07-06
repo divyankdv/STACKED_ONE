@@ -25,19 +25,12 @@ from app.strategy.strategy_signal import StrategySignal
 
 
 class AccumulationStrategy(BaseStrategy):
-
     metadata = StrategyMetadata(
-
         name="Accumulation",
-
         description="Detects institutional accumulation.",
-
         category="Institutional",
-
         timeframe="Any",
-
         version="1.0",
-
     )
 
     # =====================================================
@@ -45,11 +38,8 @@ class AccumulationStrategy(BaseStrategy):
     # =====================================================
 
     def evaluate(
-
         self,
-
         context,
-
     ) -> StrategySignal:
 
         builder = ConfidenceBuilder()
@@ -61,13 +51,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.liquidity.state == "HIGH",
-
             settings.accumulation_liquidity_weight,
-
             "High liquidity",
-
         )
 
         #
@@ -77,13 +63,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.smart_money.accumulating,
-
             settings.accumulation_smart_money_weight,
-
             "Institutional accumulation",
-
         )
 
         #
@@ -93,13 +75,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.regime.regime == MarketRegime.ACCUMULATION,
-
             settings.accumulation_regime_weight,
-
             "Accumulation regime",
-
         )
 
         #
@@ -109,13 +87,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         builder.add(
-
             context.analytics.cvd.current > 0,
-
             settings.accumulation_cvd_weight,
-
             "Positive CVD",
-
         )
 
         #
@@ -125,23 +99,15 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         builder.add_negative(
-
             context.smart_money.distributing,
-
             0.30,
-
             "Distribution detected",
-
         )
 
         builder.add_negative(
-
             context.analytics.cvd.current < 0,
-
             0.20,
-
             "Negative CVD",
-
         )
 
         #
@@ -151,11 +117,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         if builder.confidence >= settings.strategy_signal_threshold:
-
             side = SignalSide.BUY
 
         else:
-
             side = SignalSide.NEUTRAL
 
         #
@@ -165,15 +129,9 @@ class AccumulationStrategy(BaseStrategy):
         #
 
         return StrategySignal(
-
             strategy=self.name,
-
             side=side,
-
             confidence=builder.confidence,
-
             score=builder.score,
-
             reasons=builder.reasons,
-
         )

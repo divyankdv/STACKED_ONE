@@ -75,8 +75,6 @@ def main():
     # Delta REST
     # ------------------------------------------------------
 
-    app = Application()
-
     client = app.delta_rest_client
 
     print("Connecting to Delta Exchange...")

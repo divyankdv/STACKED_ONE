@@ -88,9 +88,7 @@ class ExecutionReport:
     # Timing
     # =====================================================
 
-    executed_at: datetime = field(
-        default_factory=datetime.utcnow
-    )
+    executed_at: datetime = field(default_factory=datetime.utcnow)
 
     # =====================================================
     # Metadata
@@ -151,10 +149,7 @@ class ExecutionReport:
         if self.requested_price == 0:
             return 0.0
 
-        return (
-            self.slippage
-            / self.requested_price
-        ) * 100.0
+        return (self.slippage / self.requested_price) * 100.0
 
     @property
     def total_cost(self) -> float:

@@ -27,11 +27,8 @@ class Publisher:
     # =====================================================
 
     def __init__(
-
         self,
-
         event_bus=None,
-
     ):
 
         self._event_bus = event_bus
@@ -46,11 +43,8 @@ class Publisher:
         return self._event_bus
 
     def set_event_bus(
-
         self,
-
         event_bus,
-
     ) -> None:
 
         self._event_bus = event_bus
@@ -60,19 +54,13 @@ class Publisher:
     # =====================================================
 
     def publish(
-
         self,
-
         event: Event,
-
     ) -> None:
 
         if self._event_bus is None:
-
             return
 
         self._event_bus.publish(
-
             event,
-
         )

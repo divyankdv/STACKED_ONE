@@ -54,17 +54,11 @@ class StrategyMetadata:
     def __str__(self):
 
         return (
-
             "StrategyMetadata("
-
             f"name={self.name}, "
-
             f"version={self.version}, "
-
             f"category={self.category}"
-
             ")"
-
         )
 
     __repr__ = __str__
