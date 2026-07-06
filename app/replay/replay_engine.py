@@ -43,12 +43,9 @@ class ReplayEngine:
     def __init__(
         self,
         provider: ReplayProvider,
-        sink: ReplaySink,
     ) -> None:
 
         self.provider = provider
-
-        self.sink = sink
 
         self.clock = ReplayClock()
 
@@ -105,10 +102,6 @@ class ReplayEngine:
             )
 
             self.session.current = tick.timestamp
-
-            self.sink.consume(
-                tick,
-            )
 
         self.session.state = ReplayState.FINISHED
 

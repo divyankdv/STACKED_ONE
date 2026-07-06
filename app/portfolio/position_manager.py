@@ -71,6 +71,10 @@ class PositionManager:
 
             position.add_execution(report)
 
+            position.stop_price = report.stop_price
+
+            position.target_price = report.target_price
+
             self._positions[symbol] = position
 
             return PositionUpdateResult(
@@ -115,7 +119,7 @@ class PositionManager:
 
         )
     
-        # =====================================================
+    # =====================================================
     # Reduce / Flip
     # =====================================================
 
@@ -350,6 +354,17 @@ class PositionManager:
         return tuple(
             self._positions.values()
         )
+    
+    @property
+    def current_position(self) -> Position | None:
+        """
+        Convenience helper for single-symbol simulations.
+        """
+
+        if not self._positions:
+            return None
+
+        return next(iter(self._positions.values()))
 
     @property
     def symbols(self) -> tuple[str, ...]:
@@ -456,7 +471,7 @@ class PositionManager:
     def __len__(self):
 
         return self.position_count
-
+    
     def __str__(self):
 
         return (

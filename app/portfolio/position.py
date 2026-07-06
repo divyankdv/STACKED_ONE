@@ -55,6 +55,14 @@ class Position:
 
     fees: float = 0.0
 
+    #
+    # Trade Management
+    #
+
+    stop_price: float = 0.0
+
+    target_price: float = 0.0
+
     # =====================================================
     # Lifecycle
     # =====================================================

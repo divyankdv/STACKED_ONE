@@ -91,6 +91,14 @@ class ExecutionReport:
     executed_at: datetime = field(default_factory=datetime.utcnow)
 
     # =====================================================
+    # Trade Management
+    # =====================================================
+
+    stop_price: float = 0.0
+
+    target_price: float = 0.0
+
+    # =====================================================
     # Metadata
     # =====================================================
 

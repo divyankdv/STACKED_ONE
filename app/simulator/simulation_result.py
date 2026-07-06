@@ -15,7 +15,6 @@ from dataclasses import dataclass, field
 
 @dataclass(slots=True)
 class SimulationResult:
-
     #
     # Metadata
     #
@@ -64,14 +63,10 @@ class SimulationResult:
     # Curves
     #
 
-    equity_curve: list[float] = field(
-        default_factory=list
-    )
+    equity_curve: list[float] = field(default_factory=list)
 
     #
     # Trade IDs
     #
 
-    trades: list[str] = field(
-        default_factory=list
-    )
+    trades: list[str] = field(default_factory=list)

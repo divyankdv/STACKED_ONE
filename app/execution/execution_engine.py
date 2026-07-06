@@ -7,139 +7,140 @@
 
 ------------------------------------------------------------
 
-Converts TradePlans into executable broker orders.
+Converts approved TradePlans into broker executions.
 
-Responsibilities
-
-✓ Validate TradePlan
-✓ Build OrderRequest
-✓ Submit to Broker
-✓ Return OrderResult
+Returns immutable ExecutionReports.
 
 ============================================================
 """
 
 from __future__ import annotations
 
-from app.execution.broker import Broker
-from app.execution.order_request import OrderRequest
+from app.execution.execution_report import ExecutionReport
+from app.execution.execution_report_factory import ExecutionReportFactory
 from app.execution.order_result import OrderResult
+from app.execution.order_request import OrderRequest
 from app.execution.order_side import OrderSide
 from app.execution.order_type import OrderType
-from app.execution.paper_broker import PaperBroker
-from app.market.market_snapshot import MarketSnapshot
 from app.risk.trade_plan import TradePlan
 from app.strategy.signal_side import SignalSide
 
 
 class ExecutionEngine:
-    """
-    Executes approved TradePlans.
-    """
-
-    # =====================================================
 
     def __init__(
         self,
-        broker: Broker | None = None,
-    ):
+        broker,
+    ) -> None:
 
-        #
-        # Default to paper trading.
-        #
-
-        self.broker = broker or PaperBroker()
+        self.broker = broker
 
     # =====================================================
 
     def execute(
         self,
         trade_plan: TradePlan,
-        market: MarketSnapshot,
-    ) -> OrderResult:
+    ) -> ExecutionReport | None:
 
         #
-        # Reject invalid plans
+        # Reject
         #
 
         if not trade_plan.approved:
-            return OrderResult(
-                success=False,
-                message="; ".join(trade_plan.notes),
-                order=None,
-            )
+            return None
 
         #
-        # Reject invalid market
-        #
-
-        if not market.valid:
-            return OrderResult(
-                success=False,
-                message="Invalid market snapshot.",
-                order=None,
-            )
-
-        #
-        # Convert side
+        # Side
         #
 
         if trade_plan.side == SignalSide.BUY:
+
             side = OrderSide.BUY
 
         elif trade_plan.side == SignalSide.SELL:
+
             side = OrderSide.SELL
 
         else:
-            return OrderResult(
-                success=False,
-                message="Neutral trade plan.",
-                order=None,
-            )
+
+            return None
 
         #
-        # Decide execution price
-        #
-
-        if side == OrderSide.BUY:
-            execution_price = market.ask
-
-        else:
-            execution_price = market.bid
-
-        #
-        # Build OrderRequest
+        # Request
         #
 
         request = OrderRequest(
+
             symbol=trade_plan.symbol,
+
             side=side,
+
             order_type=OrderType.MARKET,
+
             quantity=trade_plan.position_size,
-            price=execution_price,
+
+            price=trade_plan.entry_price,
+
             stop_price=trade_plan.stop_price,
+
             client_tag="STACKED_ONE",
+
         )
 
         #
-        # Send to Broker
+        # Broker
         #
 
-        return self.broker.submit_order(
+        result: OrderResult = self.broker.submit_order(
+
             request,
+
         )
 
-    # =====================================================
+        if not result.success:
 
-    @property
-    def broker_name(self):
+            return None
 
-        return self.broker.name
+        #
+        # Build report
+        #
+
+        report = ExecutionReportFactory.create(
+
+            result,
+
+        )
+
+        #
+        # Inject trade management
+        #
+
+        object.__setattr__(
+
+            report,
+
+            "stop_price",
+
+            trade_plan.stop_price,
+
+        )
+
+        object.__setattr__(
+
+            report,
+
+            "target_price",
+
+            trade_plan.target_price,
+
+        )
+
+        return report
 
     # =====================================================
 
     def __str__(self):
 
-        return f"ExecutionEngine({self.broker_name})"
+        return "ExecutionEngine()"
 
     __repr__ = __str__
