@@ -10,6 +10,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
+
 from app.analytics.analytics_manager import AnalyticsManager
 from app.execution.execution_engine import ExecutionEngine
 from app.performance.performance_manager import PerformanceManager
@@ -22,6 +24,7 @@ from app.simulator.exit_engine import ExitEngine
 from app.simulator.paper_execution import PaperExecution
 from app.simulator.simulation_config import SimulationConfig
 from app.simulator.simulation_result import SimulationResult
+from app.simulator.simulation_step import SimulationStep
 
 
 class Simulator:
@@ -55,11 +58,49 @@ class Simulator:
         self._open_plans: dict[str, TradePlan] = {}
 
     # =====================================================
+    # Run (Batch)
+    # =====================================================
 
     def run(
         self,
         config: SimulationConfig,
     ) -> SimulationResult:
+        """
+        Runs the simulation to completion and returns the
+        final SimulationResult.
+
+        Thin wrapper around iter_run() - identical behavior
+        to a plain batch run.
+        """
+
+        result: SimulationResult | None = None
+
+        for step in self.iter_run(config):
+
+            if step.result is not None:
+                result = step.result
+
+        assert result is not None
+
+        return result
+
+    # =====================================================
+    # Run (Observable)
+    # =====================================================
+
+    def iter_run(
+        self,
+        config: SimulationConfig,
+    ) -> Iterator[SimulationStep]:
+        """
+        Same simulation as run(), but yields a SimulationStep
+        after every processed tick so external observers
+        (progress bars, live dashboards) can watch it unfold
+        without re-implementing any of its logic.
+
+        The final yielded step carries the completed
+        SimulationResult.
+        """
 
         self.reset()
 
@@ -87,11 +128,13 @@ class Simulator:
 
         pnls: list[float] = []
 
+        total_ticks = len(self.replay.provider)
+
         #
         # Main Replay Loop
         #
 
-        for tick in self.replay:
+        for index, tick in enumerate(self.replay, start=1):
             #
             # Analytics
             #
@@ -109,6 +152,14 @@ class Simulator:
             )
 
             if candles is None:
+
+                yield SimulationStep(
+                    index=index,
+                    total=total_ticks,
+                    tick=tick,
+                    equity=equity,
+                )
+
                 continue
 
             candle = candles.get(
@@ -116,6 +167,14 @@ class Simulator:
             )
 
             if candle is None:
+
+                yield SimulationStep(
+                    index=index,
+                    total=total_ticks,
+                    tick=tick,
+                    equity=equity,
+                )
+
                 continue
 
             #
@@ -123,6 +182,8 @@ class Simulator:
             #
 
             position = self.positions.current_position
+
+            exit_decision = None
 
             if position is not None:
 
@@ -202,6 +263,18 @@ class Simulator:
 
                     pnls.append(realized_pnl)
 
+                    yield SimulationStep(
+                        index=index,
+                        total=total_ticks,
+                        tick=tick,
+                        candle=candle,
+                        exit_decision=exit_decision,
+                        closed_trade=update,
+                        entry_plan=trade_plan,
+                        position=self.positions.current_position,
+                        equity=equity,
+                    )
+
                     continue
 
             #
@@ -215,29 +288,38 @@ class Simulator:
 
             trade_plan = decision.trade_plan
 
-            if trade_plan.rejected:
-                continue
+            if not trade_plan.rejected:
 
-            #
-            # Execution
-            #
+                #
+                # Execution
+                #
 
-            report = self.execution.execute(
-                trade_plan,
+                report = self.execution.execute(
+                    trade_plan,
+                )
+
+                if report is not None:
+
+                    #
+                    # Position Manager
+                    #
+
+                    self.positions.process_execution(
+                        report,
+                    )
+
+                    self._open_plans[report.symbol] = trade_plan
+
+            yield SimulationStep(
+                index=index,
+                total=total_ticks,
+                tick=tick,
+                candle=candle,
+                decision=decision,
+                exit_decision=exit_decision,
+                position=self.positions.current_position,
+                equity=equity,
             )
-
-            if report is None:
-                continue
-
-            #
-            # Position Manager
-            #
-
-            self.positions.process_execution(
-                report,
-            )
-
-            self._open_plans[report.symbol] = trade_plan
 
         #
         # Final Statistics
@@ -287,7 +369,7 @@ class Simulator:
 
             sharpe_ratio = 0.0
 
-        return SimulationResult(
+        final_result = SimulationResult(
             strategy=config.strategy,
             symbol=config.symbol,
             timeframe=config.timeframe,
@@ -306,6 +388,13 @@ class Simulator:
             ending_equity=equity,
             equity_curve=equity_curve,
             trades=trade_ids,
+        )
+
+        yield SimulationStep(
+            index=total_ticks,
+            total=total_ticks,
+            equity=equity,
+            result=final_result,
         )
 
     # =====================================================

@@ -66,5 +66,8 @@ reports/
 data/live/
 data/cache/
 
+# Terminal (generated at runtime)
+data/terminal_settings.json
+
 # VS Code workspace
 *.code-workspace
